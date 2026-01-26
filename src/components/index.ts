@@ -12,8 +12,3 @@ export { ServicesSection } from "./sections/ServicesSection";
 export { RakuyuzSection } from "./sections/RakuyuzSection";
 export { AboutSection } from "./sections/AboutSection";
 export { CTASection } from "./sections/CTASection";
-export { ValueCardsSection } from "./sections/ValueCardsSection";
-export { EquipmentPreviewSection } from "./sections/EquipmentPreviewSection";
-export { ProjectHighlightsSection } from "./sections/ProjectHighlightsSection";
-export { AwardBannerSection } from "./sections/AwardBannerSection";
-export { ProcessFlowSection } from "./sections/ProcessFlowSection";

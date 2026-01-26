@@ -36,13 +36,18 @@
 }
 
 @layer components {
-  /* Container */
+  /* Container - more generous padding on all sides */
   .container-custom {
-    @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-5xl px-6 sm:px-8 md:px-12 lg:px-16;
   }
 
   .container-narrow {
-    @apply mx-auto w-full max-w-3xl px-5 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-3xl px-6 sm:px-8 md:px-12 lg:px-16;
+  }
+
+  /* Full-width container with padding for hero sections */
+  .container-hero {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 md:px-12 lg:px-16;
   }
 
   /* Section spacing */
@@ -52,6 +57,11 @@
 
   .section-sm {
     @apply py-10 md:py-12 lg:py-16;
+  }
+
+  /* Centered content wrapper */
+  .content-center {
+    @apply mx-auto text-center;
   }
 
   /* Button base styles */
@@ -91,15 +101,22 @@
     @apply px-6 py-3 text-base;
   }
 
-  /* Card styles */
+  /* Card styles - more generous padding */
   .card {
-    @apply bg-white rounded-lg p-6
+    @apply bg-white rounded-xl p-6 md:p-8
            border border-slate-200
            transition-all duration-200;
   }
 
   .card-hover {
     @apply card hover:border-slate-300 hover:shadow-card;
+  }
+
+  /* Compact card for grids */
+  .card-compact {
+    @apply bg-white rounded-lg p-5 md:p-6
+           border border-slate-200
+           transition-all duration-200;
   }
 
   /* Section label */

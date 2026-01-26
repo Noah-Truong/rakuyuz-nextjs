@@ -1,20 +1,20 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { companyInfo } from "@/lib/utils";
 
 const footerLinks = {
   services: [
-    { href: "/strength#hvac", label: "空調衛生設備工事" },
-    { href: "/strength#rehabilitation", label: "更生工事" },
-    { href: "/strength#maintenance", label: "マンションメンテナンス" },
-    { href: "/strength#equipment", label: "機械器具設置工事" },
+    { href: "/construction", label: "工法について" },
+    { href: "/specification", label: "6つの特徴" },
+    { href: "/process", label: "施工手順" },
+    { href: "/machine", label: "主な使用機器" },
   ],
   company: [
-    { href: "/company", label: "会社概要" },
-    { href: "/company/message", label: "代表あいさつ" },
-    { href: "/rakuyuz", label: "ラクユーZ工法" },
-    { href: "/recruit", label: "採用情報" },
+    { href: "/about", label: "協会について" },
+    { href: "/works", label: "施工事例" },
+    { href: "/contact", label: "お問い合わせ" },
   ],
 };
 
@@ -26,22 +26,24 @@ export function Footer() {
           {/* Brand */}
           <div>
             <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded bg-accent-600 flex items-center justify-center text-sm font-bold text-white">
-                京
+              <div className="relative w-10 h-10 flex-shrink-0">
+                <Image
+                  src="/photos/logo_01.png"
+                  alt="ラクユーZ工法協会"
+                  fill
+                  className="object-contain"
+                />
               </div>
-              <div>
-                <div className="font-semibold text-sm">京環メンテナンス</div>
-                <div className="text-[9px] tracking-wider text-white/50 uppercase">KYOKAN MAINTENANCE</div>
-              </div>
+              <span className="font-semibold text-sm whitespace-nowrap">{companyInfo.name}</span>
             </Link>
             <p className="text-sm text-slate-400 leading-relaxed">
-              1994年創業。下水道関連工事・建物設備メンテナンスを通じて社会インフラを支えています。
+              RAKUYU-Z工法（不断水水替工法）の普及と技術向上を目的とした協会です。
             </p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-white/90">事業内容</h4>
+            <h4 className="text-sm font-semibold mb-4 text-white/90">工法情報</h4>
             <ul className="space-y-2">
               {footerLinks.services.map((link) => (
                 <li key={link.href}>
@@ -55,7 +57,7 @@ export function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-white/90">会社情報</h4>
+            <h4 className="text-sm font-semibold mb-4 text-white/90">協会情報</h4>
             <ul className="space-y-2">
               {footerLinks.company.map((link) => (
                 <li key={link.href}>
@@ -86,6 +88,14 @@ export function Footer() {
                   {companyInfo.phone}
                 </a>
               </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-4 h-4 text-accent-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <a href={`mailto:${companyInfo.email}`} className="hover:text-white transition-colors">
+                  {companyInfo.email}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -95,10 +105,9 @@ export function Footer() {
       <div className="border-t border-white/10">
         <div className="container-custom py-5">
           <div className="flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-slate-500">
-            <p>© 2024 {companyInfo.name}</p>
+            <p>© {new Date().getFullYear()} {companyInfo.name}</p>
             <div className="flex items-center gap-4">
-              <Link href="/privacy" className="hover:text-white transition-colors">プライバシーポリシー</Link>
-              <Link href="/sitemap" className="hover:text-white transition-colors">サイトマップ</Link>
+              <Link href="/contact" className="hover:text-white transition-colors">お問い合わせ</Link>
             </div>
           </div>
         </div>

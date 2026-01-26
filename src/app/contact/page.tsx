@@ -3,254 +3,210 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import { fadeUpVariants } from "@/lib/animations";
+import { Button, SectionHeader } from "@/components/ui/Button";
 import { companyInfo } from "@/lib/utils";
+import { fadeUpVariants } from "@/lib/animations";
 
-const inquiryTypes = [
-  { id: "method", label: "工法について" },
-  { id: "construction", label: "施工について" },
-  { id: "estimate", label: "見積のご依頼" },
-  { id: "maintenance", label: "建物設備メンテナンスについて" },
-  { id: "recruit", label: "採用について" },
-  { id: "other", label: "その他お問い合わせ" },
-];
+interface FormData {
+  name: string;
+  company: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+}
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     company: "",
-    department: "",
     email: "",
     phone: "",
-    inquiryType: "",
+    subject: "",
     message: "",
-    documentRequest: false,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { name, value, type } = e.target;
-    if (type === "checkbox") {
-      setFormData({ ...formData, [name]: (e.target as HTMLInputElement).checked });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
     // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
     setIsSubmitting(false);
-    setIsSubmitted(true);
+    setSubmitStatus("success");
+    
+    // Reset form
+    setFormData({
+      name: "",
+      company: "",
+      email: "",
+      phone: "",
+      subject: "",
+      message: "",
+    });
   };
 
   return (
     <div>
-      {/* Hero */}
+      {/* Hero Section */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-primary-950">
-        <div className="absolute inset-0 bg-primary-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-primary-900 to-primary-950" />
         <div className="container-custom relative z-10">
-          <nav className="flex items-center gap-2 text-sm text-slate-400 mb-6">
-            <Link href="/" className="hover:text-white transition-colors">ホーム</Link>
-            <span>/</span>
-            <span className="text-white">お問い合わせ</span>
-          </nav>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <motion.div
+            variants={fadeUpVariants}
+            initial="hidden"
+            animate="visible"
+            className="text-center text-white"
+          >
+            <span className="section-label text-accent-400">Contact Us</span>
             <h1 className="text-display-md md:text-display-lg font-semibold text-white mb-4">
               お問い合わせ
             </h1>
-            <p className="text-lg text-slate-300 max-w-2xl">
-              下水道工事、建物設備メンテナンス、採用に関するお問い合わせは、
-              お電話またはフォームよりお気軽にご連絡ください。
+            <p className="text-slate-300 max-w-2xl mx-auto">
+              RAKUYU-Z工法についてのご質問・ご相談はこちらから
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* Contact Info */}
-      <section className="section-sm bg-slate-50 border-b border-slate-200">
+      {/* Contact Info Section */}
+      <section className="py-8 bg-slate-50 border-b border-slate-200">
         <div className="container-custom">
-          <div className="grid md:grid-cols-3 gap-6">
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="bg-white border border-slate-200 rounded-lg p-6"
-            >
-              <div className="w-10 h-10 bg-accent-50 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+          <div className="grid md:grid-cols-3 gap-6 text-center">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-accent-600 text-white">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-primary-900 mb-1">お電話</h3>
-              <a href={`tel:${companyInfo.phone.replace(/-/g, "")}`} className="text-lg font-medium text-accent-600 hover:underline">
+              <span className="text-sm text-slate-600">
+                {companyInfo.address.postal}<br />
+                {companyInfo.address.full}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-accent-600 text-white">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <a href={`tel:${companyInfo.phone.replace(/-/g, "")}`} className="text-lg font-semibold text-accent-600">
                 {companyInfo.phone}
               </a>
-              <p className="text-sm text-slate-500 mt-1">平日 9:00〜18:00</p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="bg-white border border-slate-200 rounded-lg p-6"
-            >
-              <div className="w-10 h-10 bg-accent-50 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              <span className="text-xs text-slate-500">FAX: {companyInfo.fax}</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 flex items-center justify-center rounded-full bg-accent-600 text-white">
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-primary-900 mb-1">本社</h3>
-              <p className="text-sm text-slate-600">{companyInfo.address.postal}</p>
-              <p className="text-sm text-slate-600">{companyInfo.address.full}</p>
-            </motion.div>
-
-            <motion.div
-              variants={fadeUpVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="bg-white border border-slate-200 rounded-lg p-6"
-            >
-              <div className="w-10 h-10 bg-accent-50 rounded-lg flex items-center justify-center mb-4">
-                <svg className="w-5 h-5 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                </svg>
-              </div>
-              <h3 className="font-semibold text-primary-900 mb-1">大阪支店</h3>
-              <p className="text-sm text-slate-600">{companyInfo.branch}</p>
-            </motion.div>
+              <a href={`mailto:${companyInfo.email}`} className="text-accent-600 text-sm">
+                {companyInfo.email}
+              </a>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Form Section */}
+      {/* Contact Form Section */}
       <section className="section">
         <div className="container-custom">
-          <div className="max-w-2xl mx-auto">
-            {isSubmitted ? (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-center py-12"
-              >
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <motion.div
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto"
+          >
+            <SectionHeader
+              label="Form"
+              title="お問い合わせフォーム"
+              description="下記フォームに必要事項をご記入の上、送信してください。"
+            />
+
+            {submitStatus === "success" ? (
+              <div className="card p-8 text-center">
+                <div className="w-16 h-16 mx-auto mb-4 bg-accent-600 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-semibold text-primary-900 mb-3">
-                  お問い合わせを受け付けました
-                </h2>
-                <p className="text-slate-600 mb-6">
-                  内容を確認の上、担当者よりご連絡いたします。
-                  通常2〜3営業日以内にご返信いたします。
+                <h3 className="text-lg font-semibold text-primary-900 mb-2">送信完了</h3>
+                <p className="text-slate-600 mb-6 text-sm">
+                  お問い合わせいただきありがとうございます。<br />
+                  担当者より折り返しご連絡いたします。
                 </p>
-                <Button variant="outline" asChild>
-                  <Link href="/">トップページへ戻る</Link>
+                <Button variant="primary" onClick={() => setSubmitStatus("idle")}>
+                  新しいお問い合わせ
                 </Button>
-              </motion.div>
+              </div>
             ) : (
-              <motion.div
-                variants={fadeUpVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-              >
-                <div className="text-center mb-10">
-                  <span className="section-label">Contact Form</span>
-                  <h2 className="text-display-sm font-semibold text-primary-900">
-                    お問い合わせフォーム
-                  </h2>
-                  <p className="text-slate-600 mt-2">
-                    必須項目をご入力の上、送信してください。
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Inquiry Type */}
-                  <div>
-                    <label htmlFor="inquiryType" className="block text-sm font-medium text-slate-700 mb-2">
-                      お問い合わせ種別 <span className="text-red-500">*</span>
-                    </label>
-                    <select
-                      id="inquiryType"
-                      name="inquiryType"
-                      required
-                      value={formData.inquiryType}
-                      onChange={handleChange}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
-                    >
-                      <option value="">選択してください</option>
-                      {inquiryTypes.map((type) => (
-                        <option key={type.id} value={type.id}>{type.label}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Company & Department */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="company" className="block text-sm font-medium text-slate-700 mb-2">
-                        会社名 <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        required
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
-                        placeholder="株式会社〇〇"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="department" className="block text-sm font-medium text-slate-700 mb-2">
-                        部署名
-                      </label>
-                      <input
-                        type="text"
-                        id="department"
-                        name="department"
-                        value={formData.department}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
-                        placeholder="営業部"
-                      />
-                    </div>
-                  </div>
-
+              <form onSubmit={handleSubmit} className="card p-6 md:p-8">
+                <div className="space-y-5">
                   {/* Name */}
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">
                       お名前 <span className="text-red-500">*</span>
                     </label>
                     <input
                       type="text"
                       id="name"
                       name="name"
-                      required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
+                      required
+                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                       placeholder="山田 太郎"
                     />
                   </div>
 
-                  {/* Contact Info */}
-                  <div className="grid md:grid-cols-2 gap-6">
+                  {/* Company */}
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-slate-700 mb-1.5">
+                      会社名
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                      placeholder="株式会社〇〇"
+                    />
+                  </div>
+
+                  {/* Email & Phone */}
+                  <div className="grid md:grid-cols-2 gap-5">
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
+                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">
+                        メールアドレス <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                        placeholder="example@email.com"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1.5">
                         電話番号
                       </label>
                       <input
@@ -259,74 +215,53 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
-                        placeholder="075-000-0000"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
-                        メールアドレス <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
-                        placeholder="example@email.com"
+                        className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                        placeholder="000-0000-0000"
                       />
                     </div>
                   </div>
 
+                  {/* Subject */}
+                  <div>
+                    <label htmlFor="subject" className="block text-sm font-medium text-slate-700 mb-1.5">
+                      件名 <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                      id="subject"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                    >
+                      <option value="">選択してください</option>
+                      <option value="inquiry">工法についてのお問い合わせ</option>
+                      <option value="estimate">お見積りのご依頼</option>
+                      <option value="consultation">施工相談</option>
+                      <option value="document">資料請求</option>
+                      <option value="other">その他</option>
+                    </select>
+                  </div>
+
                   {/* Message */}
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-2">
+                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1.5">
                       お問い合わせ内容 <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       id="message"
                       name="message"
-                      required
-                      rows={6}
                       value={formData.message}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-slate-300 rounded-md focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors resize-none"
+                      required
+                      rows={5}
+                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all resize-y"
                       placeholder="お問い合わせ内容をご記入ください"
                     />
                   </div>
 
-                  {/* Document Request */}
-                  <div className="bg-accent-50 border border-accent-200 rounded-lg p-4">
-                    <label className="flex items-start gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        name="documentRequest"
-                        checked={formData.documentRequest}
-                        onChange={handleChange}
-                        className="mt-0.5 w-5 h-5 text-accent-600 border-slate-300 rounded focus:ring-accent-500"
-                      />
-                      <div>
-                        <span className="text-sm font-medium text-primary-900">
-                          資料請求を希望する
-                        </span>
-                        <p className="text-xs text-slate-600 mt-0.5">
-                          ラクユーZ工法の詳細資料（PDF）をメールでお送りします。
-                        </p>
-                      </div>
-                    </label>
-                  </div>
-
-                  {/* Privacy Notice */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
-                    <p className="text-sm text-slate-600">
-                      ご入力いただいた個人情報は、お問い合わせへの回答およびご連絡のために利用いたします。
-                      詳しくは<Link href="/privacy" className="text-accent-600 hover:underline">プライバシーポリシー</Link>をご覧ください。
-                    </p>
-                  </div>
-
-                  <div className="text-center">
+                  {/* Submit */}
+                  <div className="text-center pt-2">
                     <Button
                       type="submit"
                       variant="primary"
@@ -336,42 +271,26 @@ export default function ContactPage() {
                     >
                       {isSubmitting ? (
                         <>
-                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                          </svg>
                           送信中...
                         </>
                       ) : (
                         <>
                           送信する
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                           </svg>
                         </>
                       )}
                     </Button>
                   </div>
-                </form>
-              </motion.div>
+                </div>
+              </form>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="section bg-slate-50">
-        <div className="container-custom">
-          <div className="text-center mb-10">
-            <span className="section-label">Access</span>
-            <h2 className="text-display-sm font-semibold text-primary-900">アクセス</h2>
-          </div>
-          <div className="aspect-[21/9] bg-slate-200 rounded-lg flex items-center justify-center">
-            <div className="text-center text-slate-400">
-              <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              <p className="text-sm">Google Mapが入ります</p>
-            </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </div>

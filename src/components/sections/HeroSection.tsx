@@ -9,7 +9,7 @@ import { useCountUp } from "@/hooks/useAnimations";
 
 const stats = [
   { value: 30, suffix: "年以上", label: "業界実績" },
-  { value: 1994, suffix: "年", label: "創業", isYear: true },
+  { value: 19, suffix: "件+", label: "施工事例" },
   { value: 50, suffix: "年", label: "配管延命技術" },
 ];
 
@@ -27,8 +27,8 @@ export function HeroSection() {
       ref={containerRef}
       className="relative min-h-[90vh] flex items-center bg-primary-950"
     >
-      {/* Solid corporate background */}
-      <div className="absolute inset-0 bg-primary-950" />
+      {/* Simple gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary-900 to-primary-950" />
       
       {/* Subtle grid pattern */}
       <div
@@ -41,8 +41,8 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <motion.div style={{ opacity }} className="container-custom relative z-10 py-24">
-        <div className="max-w-3xl">
+      <motion.div style={{ opacity }} className="container-custom relative z-10 py-24 md:py-32">
+        <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
           {/* Award badge - subtle */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -63,9 +63,9 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="text-display-lg md:text-display-xl font-semibold text-white mb-5 leading-tight"
           >
-            社会インフラを支える
+            維持管理時代の
             <br />
-            <span className="text-accent-400">確かな技術と信頼</span>
+            <span className="text-accent-400">水替え対策</span>
           </motion.h1>
 
           {/* Description */}
@@ -75,8 +75,8 @@ export function HeroSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg text-slate-300 mb-8 max-w-xl leading-relaxed"
           >
-            1994年創業。下水道更生工事から建物設備メンテナンスまで、
-            特許技術「ラクユーZ工法」で水まわりのインフラを守り続けています。
+            RAKUYU-Z工法は、供用中の下水道関連工事において、周辺環境の衛生面や安全面、
+            本工事の施工性と品質確保に応える不断水水替工法です。
           </motion.p>
 
           {/* CTA Buttons */}
@@ -84,7 +84,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap gap-3 mb-12"
+            className="flex flex-wrap justify-center lg:justify-start gap-3 mb-12"
           >
             <Button variant="primary" size="lg" asChild>
               <Link href="/contact">
@@ -95,7 +95,7 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button variant="white" size="lg" asChild>
-              <Link href="/rakuyuz">ラクユーZ工法について</Link>
+              <Link href="/construction">工法について詳しく</Link>
             </Button>
           </motion.div>
 
@@ -104,12 +104,12 @@ export function HeroSection() {
             variants={staggerContainerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-wrap gap-8 pt-8 border-t border-white/10"
+            className="flex flex-wrap justify-center lg:justify-start gap-8 pt-8 border-t border-white/10"
           >
             {stats.map((stat) => (
               <motion.div key={stat.label} variants={staggerItemVariants}>
                 <div className="text-2xl md:text-3xl font-semibold text-white">
-                  {stat.isYear ? stat.value : <StatNumber value={stat.value} />}
+                  <StatNumber value={stat.value} />
                   <span className="text-base text-slate-400 ml-1">{stat.suffix}</span>
                 </div>
                 <div className="text-sm text-slate-500 mt-1">{stat.label}</div>

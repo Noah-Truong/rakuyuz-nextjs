@@ -13,12 +13,12 @@ interface CTASectionProps {
 
 export function CTASection({
   title = "お問い合わせ",
-  description = "下水道工事、建物設備メンテナンスに関するご相談は、お気軽にお問い合わせください。",
+  description = "RAKUYU-Z工法についてのご質問やご相談は、お気軽にお問い合わせください。",
 }: CTASectionProps) {
   return (
     <section className="section-sm bg-accent-600">
       <div className="container-custom">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto text-center md:text-left">
           <motion.div
             variants={fadeUpVariants}
             initial="hidden"

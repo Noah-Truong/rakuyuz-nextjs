@@ -2,25 +2,23 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useHeaderScroll } from "@/hooks/useAnimations";
 import { Button } from "@/components/ui/Button";
-
-const navItems = [
-  { href: "/", label: "ホーム" },
-  { href: "/strength", label: "事業内容" },
-  { href: "/rakuyuz", label: "ラクユーZ工法" },
-  { href: "/works", label: "施工実績" },
-  { href: "/company", label: "会社概要" },
-  { href: "/recruit", label: "採用情報" },
-];
+import { navigationItems } from "@/lib/utils";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isScrolled = useHeaderScroll(20);
   const pathname = usePathname();
+  
+  // Check if we're on the homepage (which has dark hero)
+  const isHomePage = pathname === "/";
+  // Always show solid header on non-home pages, or when scrolled
+  const showSolidHeader = !isHomePage || isScrolled;
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -29,13 +27,10 @@ export function Header() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.4 }}
+      <header
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled
+          showSolidHeader
             ? "bg-white border-b border-slate-200 shadow-subtle"
             : "bg-transparent"
         )}
@@ -43,38 +38,33 @@ export function Header() {
         <div className="container-custom">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
-              <div className={cn(
-                "w-8 h-8 rounded flex items-center justify-center text-sm font-bold transition-colors",
-                isScrolled ? "bg-accent-600 text-white" : "bg-white/10 text-white"
+            <Link href="/" className="flex items-center gap-2 flex-shrink-0 -ml-32">
+              <div className="relative w-64 h-64 flex-shrink-0">
+                <Image
+                  src="/photos/logo_01.png"
+                  alt="ラクユーZ工法協会"
+                  fill
+                  className="object-contain"
+                  priority
+                />
+              </div>
+              <span className={cn(
+                "font-semibold text-sm whitespace-nowrap transition-colors",
+                showSolidHeader ? "text-primary-900" : "text-white"
               )}>
-                京
-              </div>
-              <div>
-                <div className={cn(
-                  "font-semibold text-sm leading-tight transition-colors",
-                  isScrolled ? "text-primary-900" : "text-white"
-                )}>
-                  京環メンテナンス
-                </div>
-                <div className={cn(
-                  "text-[9px] tracking-wider uppercase transition-colors",
-                  isScrolled ? "text-slate-500" : "text-white/60"
-                )}>
-                  KYOKAN MAINTENANCE
-                </div>
-              </div>
+                ラクユーZ工法協会
+              </span>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center gap-1">
-              {navItems.map((item) => (
+              {navigationItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "px-3 py-2 text-sm font-medium rounded transition-colors",
-                    isScrolled
+                    "px-3 py-2 text-sm font-medium rounded transition-colors whitespace-nowrap",
+                    showSolidHeader
                       ? pathname === item.href
                         ? "text-accent-600"
                         : "text-slate-600 hover:text-primary-900 hover:bg-slate-50"
@@ -87,8 +77,14 @@ export function Header() {
                 </Link>
               ))}
               <div className="ml-3">
-                <Button variant={isScrolled ? "primary" : "white"} size="sm" asChild>
-                  <Link href="/contact">お問い合わせ</Link>
+                <Button variant={showSolidHeader ? "primary" : "white"} size="sm" asChild>
+                  <Link href="/contact" aria-label="お問い合わせ">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+                      <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="none" />
+                    </svg>
+                  </Link>
                 </Button>
               </div>
             </nav>
@@ -97,27 +93,27 @@ export function Header() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
-                "lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded transition-colors",
-                isScrolled ? "hover:bg-slate-100" : "hover:bg-white/10"
+                "lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded transition-colors flex-shrink-0",
+                showSolidHeader ? "hover:bg-slate-100" : "hover:bg-white/10"
               )}
               aria-label="メニュー"
             >
               <motion.span
                 animate={{ rotate: mobileMenuOpen ? 45 : 0, y: mobileMenuOpen ? 6 : 0 }}
-                className={cn("w-5 h-0.5 rounded-full", isScrolled ? "bg-primary-900" : "bg-white")}
+                className={cn("w-5 h-0.5 rounded-full", showSolidHeader ? "bg-primary-900" : "bg-white")}
               />
               <motion.span
                 animate={{ opacity: mobileMenuOpen ? 0 : 1 }}
-                className={cn("w-5 h-0.5 rounded-full", isScrolled ? "bg-primary-900" : "bg-white")}
+                className={cn("w-5 h-0.5 rounded-full", showSolidHeader ? "bg-primary-900" : "bg-white")}
               />
               <motion.span
                 animate={{ rotate: mobileMenuOpen ? -45 : 0, y: mobileMenuOpen ? -6 : 0 }}
-                className={cn("w-5 h-0.5 rounded-full", isScrolled ? "bg-primary-900" : "bg-white")}
+                className={cn("w-5 h-0.5 rounded-full", showSolidHeader ? "bg-primary-900" : "bg-white")}
               />
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
       {/* Mobile Menu */}
       <AnimatePresence>
@@ -129,8 +125,25 @@ export function Header() {
             className="fixed inset-0 z-40 bg-primary-950 lg:hidden"
           >
             <div className="flex flex-col justify-center items-center h-full">
+              {/* Mobile Logo */}
+              <div className="absolute top-4 left-6">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
+                  <div className="relative w-10 h-10">
+                    <Image
+                      src="/photos/logo_01.png"
+                      alt="ラクユーZ工法協会"
+                      fill
+                      className="object-contain"
+                    />
+                  </div>
+                  <span className="font-semibold text-sm text-white whitespace-nowrap">
+                    ラクユーZ工法協会
+                  </span>
+                </Link>
+              </div>
+
               <nav className="flex flex-col items-center gap-4">
-                {navItems.map((item, i) => (
+                {navigationItems.map((item, i) => (
                   <motion.div
                     key={item.href}
                     initial={{ opacity: 0, y: 10 }}
@@ -141,7 +154,7 @@ export function Header() {
                       href={item.href}
                       onClick={() => setMobileMenuOpen(false)}
                       className={cn(
-                        "text-xl font-medium transition-colors",
+                        "text-xl font-medium transition-colors whitespace-nowrap",
                         pathname === item.href ? "text-accent-400" : "text-white hover:text-accent-300"
                       )}
                     >
@@ -152,12 +165,16 @@ export function Header() {
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * navItems.length }}
+                  transition={{ delay: 0.05 * navigationItems.length }}
                   className="mt-4"
                 >
                   <Button variant="primary" asChild>
-                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      お問い合わせ
+                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)} aria-label="お問い合わせ">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
+                        <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="none" />
+                      </svg>
                     </Link>
                   </Button>
                 </motion.div>

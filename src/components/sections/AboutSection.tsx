@@ -7,17 +7,17 @@ import { fadeUpVariants, staggerContainerVariants, staggerItemVariants } from "@
 import { companyInfo } from "@/lib/utils";
 
 const highlights = [
-  { label: "創業", value: "1994年" },
-  { label: "許可", value: "特定建設業" },
-  { label: "認証", value: "KESステップ1" },
+  { label: "設立", value: "1995年" },
+  { label: "受賞", value: "インフラメンテナンス大賞" },
   { label: "本社", value: "京都市右京区" },
+  { label: "工法", value: "特許取得済" },
 ];
 
 export function AboutSection() {
   return (
     <section className="section">
       <div className="container-custom">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center max-w-5xl mx-auto">
           {/* Left - Image placeholder */}
           <motion.div
             variants={fadeUpVariants}
@@ -25,12 +25,12 @@ export function AboutSection() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <div className="aspect-[4/3] bg-slate-100 rounded-lg flex items-center justify-center">
-              <div className="text-center text-slate-400">
-                <svg className="w-12 h-12 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="aspect-[4/3] bg-slate-100 rounded-xl flex items-center justify-center">
+              <div className="text-center text-slate-400 p-8">
+                <svg className="w-14 h-14 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
-                <p className="text-sm">会社イメージ</p>
+                <p className="text-sm">協会イメージ</p>
               </div>
             </div>
           </motion.div>
@@ -45,13 +45,12 @@ export function AboutSection() {
             >
               <span className="section-label">About Us</span>
               <h2 className="text-display-sm md:text-display-md font-semibold text-primary-900 mb-4">
-                安心して任せられる
-                <br />企業であり続ける
+                RAKUYU-Z工法の
+                <br />普及と技術向上
               </h2>
               <p className="text-slate-600 mb-6 leading-relaxed">
-                京都環境メンテナンス株式会社は、1994年の創業以来、下水道関連工事から建物設備メンテナンスまで、
-                水まわりのインフラを支える事業を展開してまいりました。
-                お客様のニーズや現場の課題に真摯に向き合い、確かな技術と信頼でお応えします。
+                RAKUYU-Z工法協会は、下水供用下における様々な工事が円滑かつ安全に進行することをサポートする
+                RAKUYU-Z工法（不断水水替工法）の普及と工法技術のより一層の向上を目指しています。
               </p>
             </motion.div>
 
@@ -83,10 +82,10 @@ export function AboutSection() {
               className="flex flex-wrap gap-3"
             >
               <Button variant="primary" asChild>
-                <Link href="/company">会社概要</Link>
+                <Link href="/about">協会について</Link>
               </Button>
               <Button variant="outline" asChild>
-                <Link href="/company/message">代表あいさつ</Link>
+                <Link href="/works">施工事例</Link>
               </Button>
             </motion.div>
           </div>

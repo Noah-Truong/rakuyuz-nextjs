@@ -5,40 +5,41 @@ import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
   title: {
-    default: "京環メンテナンス株式会社 | 下水道工事・建物設備メンテナンス",
-    template: "%s | 京環メンテナンス株式会社",
+    default: "ラクユーZ工法協会 | 不断水水替工法",
+    template: "%s | ラクユーZ工法協会",
   },
   description:
-    "京都環境メンテナンス株式会社。1994年創業、特許取得のラクユーZ工法で下水道関連工事・建物設備メンテナンスを提供。インフラメンテナンス大賞優秀賞受賞。",
+    "RAKUYU-Z工法は、供用中の下水道関連工事において、周辺環境の衛生面や安全面、本工事の施工性と品質確保に応える不断水水替工法です。",
   keywords: [
-    "京環メンテナンス",
-    "京都環境メンテナンス",
-    "ラクユーZ工法",
-    "下水道工事",
-    "建物設備メンテナンス",
-    "更生工事",
-    "空調衛生設備",
+    "RAKUYU-Z工法",
+    "ラクユーZ",
+    "不断水水替工法",
+    "下水工事",
+    "水替工法",
     "京都",
+    "下水道工事",
+    "管更生",
+    "災害復旧",
   ],
-  authors: [{ name: "京都環境メンテナンス株式会社" }],
-  creator: "京都環境メンテナンス株式会社",
-  publisher: "京都環境メンテナンス株式会社",
+  authors: [{ name: "ラクユーZ工法協会" }],
+  creator: "ラクユーZ工法協会",
+  publisher: "ラクユーZ工法協会",
   formatDetection: {
     telephone: true,
     date: false,
     email: true,
     address: true,
   },
-  metadataBase: new URL("https://kyokan-maintenance.co.jp"),
+  metadataBase: new URL("https://rakuyuz.jp"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "京環メンテナンス株式会社",
+    title: "ラクユーZ工法協会",
     description:
-      "特許取得のラクユーZ工法で下水道関連工事・建物設備メンテナンスを提供。1994年創業、インフラメンテナンス大賞優秀賞受賞。",
-    url: "https://kyokan-maintenance.co.jp",
-    siteName: "京環メンテナンス株式会社",
+      "RAKUYU-Z工法は不断水水替工法。下水道関連工事の施工性と品質確保に応えます。",
+    url: "https://rakuyuz.jp",
+    siteName: "ラクユーZ工法協会",
     locale: "ja_JP",
     type: "website",
     images: [
@@ -46,15 +47,15 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "京環メンテナンス株式会社",
+        alt: "ラクユーZ工法協会",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "京環メンテナンス株式会社",
+    title: "ラクユーZ工法協会",
     description:
-      "特許取得のラクユーZ工法で下水道関連工事・建物設備メンテナンスを提供。",
+      "RAKUYU-Z工法は不断水水替工法。下水道関連工事の施工性と品質確保に応えます。",
     images: ["/og-image.jpg"],
   },
   robots: {
@@ -71,7 +72,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#041c2c",
+  themeColor: "#0f1729",
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
@@ -106,22 +107,21 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "京都環境メンテナンス株式会社",
-              alternateName: "京環メンテナンス株式会社",
-              url: "https://kyokan-maintenance.co.jp",
-              logo: "https://kyokan-maintenance.co.jp/logo.png",
+              name: "ラクユーZ工法協会",
+              alternateName: "RAKUYU-Z Construction Method Association",
+              url: "https://rakuyuz.jp",
+              logo: "https://rakuyuz.jp/logo.png",
               description:
-                "下水道関連工事・建物設備メンテナンスを提供する京都の企業。特許取得のラクユーZ工法を展開。",
-              foundingDate: "1994-09-12",
+                "RAKUYU-Z工法（不断水水替工法）の普及と技術向上を目的とした協会。",
               address: {
                 "@type": "PostalAddress",
-                streetAddress: "西京極北大入町66番地",
+                streetAddress: "西京極北大入町66",
                 addressLocality: "京都市右京区",
                 addressRegion: "京都府",
                 postalCode: "615-0881",
                 addressCountry: "JP",
               },
-              telephone: "+81-75-871-2311",
+              telephone: "+81-75-323-1445",
               sameAs: [],
               award: "第4回インフラメンテナンス大賞 防衛大臣賞・優秀賞",
             }),

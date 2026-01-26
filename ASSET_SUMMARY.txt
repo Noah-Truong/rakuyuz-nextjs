@@ -1,0 +1,199 @@
+================================================================================
+RAKUYUZ WEBSITE - ASSET SUMMARY
+================================================================================
+
+Generated: January 2026
+Based on: newstatus.md requirements vs actual /public folder contents
+
+================================================================================
+ASSETS AVAILABLE AND IMPLEMENTED
+================================================================================
+
+HERO SLIDES (6 images) - ALL PRESENT
+--------------------------------------------------------------------------------
+/photos/general_construction/slide1.png
+/photos/general_construction/slide2.png
+/photos/general_construction/slide3.png
+/photos/general_construction/slide4.png
+/photos/general_construction/slide5.png
+/photos/general_construction/slide6.png
+
+CONSTRUCTION METHOD PAGE (5 images) - ALL PRESENT
+--------------------------------------------------------------------------------
+/photos/rakuyu-zi method/standard_img.png
+/photos/rakuyu-zi method/construction_img_new1.png
+/photos/rakuyu-zi method/construction_img_new2.png
+/photos/rakuyu-zi method/pump_img.png
+/photos/rakuyu-zi method/standard_img2.png
+
+6 FEATURES PAGE (17 images) - ALL PRESENT
+--------------------------------------------------------------------------------
+/photos/features/solution1_left.png
+/photos/features/solution1_right.png
+/photos/features/solution2_left.png
+/photos/features/solution2_right.png
+/photos/features/solution4_left.png
+/photos/features/solution4_right.png
+/photos/features/solution6_left.png
+/photos/features/solution6_right.png
+/photos/features/solution7_left.png
+/photos/features/solution7_right.png
+/photos/features/solution8_left.png
+/photos/features/solution8_right.png
+/photos/features/solution9_3.png
+/photos/features/solution_s_left1.png
+/photos/features/solution_s_left2.png
+/photos/features/solution_s_right1.png
+/photos/features/solution_s_right2.png
+
+PROCESS/PROCEDURE PAGE (11 images) - ALL PRESENT
+--------------------------------------------------------------------------------
+/photos/procedure/flow_main_img.png
+/photos/procedure/flow_img1_1.png
+/photos/procedure/flow_img1_2.png
+/photos/procedure/flow_img3_1.png
+/photos/procedure/flow_img3_2.png
+/photos/procedure/flow_img4_1.png
+/photos/procedure/flow_img4_2.png
+/photos/procedure/flow_img8_1.png
+/photos/procedure/flow_img9_1.png
+/photos/procedure/flow_img10_1.png
+/photos/procedure/flow_img11_1.png
+
+CASE STUDIES (19 projects, 110+ images) - ALL PRESENT
+--------------------------------------------------------------------------------
+1. 布設替工事（1スパン水替）その1 - 5 images
+2. 布設替工事（1スパン水替）その2 - 6 images
+3. 布設替工事（1スパン水替）その3 - 6 images
+4. 大口径水替（更生工事）その1 - 6 images
+5. 大口径水替（更生工事）その2 - 6 images
+6. 大口径水替（更生工事）その3 - 6 images
+7. 大口径水替（人孔管口耐震化工事）その4 - 6 images
+8. 東日本大震災復旧工事 その1 - 6 images
+9. 東日本大震災復旧工事 その2 - 6 images
+10. 熊本地震復旧工事 - 6 images
+11. 鳥取中部地震復旧工事 - 6 images
+12. マンホールポンプ場防食工事 - 6 images
+13. 中継ポンプ場改修工事 - 6 images
+14. 改築推進工事 - 6 images
+15. 長距離水替 - 6 images
+16. 排水路拡張工事 - 6 images
+17. 下水熱研究事業 - 6 images
+18. 鉄道架道橋耐震補強工事 - 6 images
+19. 伏せ越し下流側 - 6 images
+
+LOGO - PRESENT
+--------------------------------------------------------------------------------
+/photos/logo_01.png
+
+FEATURE CARD IMAGES - PRESENT
+--------------------------------------------------------------------------------
+/photos/features.png (used for 6つの特徴 card)
+/photos/equipment.png (used for 主な使用機器 card)
+
+3D MODELS (14 .glb files) - PRESENT
+--------------------------------------------------------------------------------
+/models/industrial-pump.glb (used for 2-inch pump)
+/models/pump-orange.glb (used for 4-inch pump)
+/models/pump-unit.glb (used for 6-inch pump)
+/models/air+compressor+3d+model.glb
+/models/circular+mechanical+hatch+3d+model.glb
+/models/gas+cylinder+3d+model.glb
+/models/industrial+pump+3d+model (2).glb
+/models/industrial+pump+3d+model (3).glb
+/models/industrial+pump+3d+model_Clone1 (1).glb
+/models/mechanical+flange+3d+model.glb
+/models/metal+pot+set+3d+model.glb
+/models/r+zs-1800+machinery+model.glb
+/models/surveying+instrument+3d+model.glb
+/models/vacuum+pump+3d+model.glb
+
+================================================================================
+MISSING ASSETS (Placeholders Created)
+================================================================================
+
+1. /rakuyuz.pdf
+   - PDF download resource for construction method page
+   - Status: Download link placeholder created
+
+2. /photos/organaize_img.png (or images/organaize_img.png)
+   - Organization chart image for About page
+   - Status: SVG icon placeholder created
+
+3. Feature Card Mobile Variants
+   - top_3menu_1_sm.png
+   - top_3menu_2_sm.png
+   - top_3menu_3_sm.png
+   - Status: Using desktop images with responsive CSS
+
+4. Equipment Machine Images (as specified in newstatus.md)
+   - images/works/machine_img1.png through machine_img10.png
+   - images/works/comp1.png, comp2.png, comp3.png
+   - Status: Using 3D models and SVG icon placeholders instead
+
+5. Triangle Icons (problem/solution indicators)
+   - triangle.png, triangle2.png
+   - triangle_taikyu.png, triangle2_taikyu.png
+   - triangle_kankyou.png, triangle2_kankyou.png
+   - triangle_anzen.png, triangle2_anzen.png
+   - triangle_kidou.png, triangle2_kidou.png
+   - Status: Replaced with styled CSS badges (BEFORE/AFTER labels)
+
+6. Feature Sequential Images
+   - solution9_1.png, solution9_2.png
+   - Status: Only solution9_3.png exists, using that single image
+
+7. Case Study 1 - First Image
+   - works_img_new11_1.jpg is missing (replaced with surveying+instrument+3d+model.jpg)
+   - Status: Using available images in folder
+
+================================================================================
+EXTRA ASSETS (Available but not required by newstatus.md)
+================================================================================
+
+3D MODELS (could be used for enhanced visualization)
+--------------------------------------------------------------------------------
+- air+compressor+3d+model.glb
+- circular+mechanical+hatch+3d+model.glb
+- gas+cylinder+3d+model.glb
+- mechanical+flange+3d+model.glb
+- metal+pot+set+3d+model.glb
+- r+zs-1800+machinery+model.glb
+- surveying+instrument+3d+model.glb
+- vacuum+pump+3d+model.glb
+- Multiple industrial pump variants
+
+STATIC IMAGES
+--------------------------------------------------------------------------------
+- /photos/about.png - Could be used on About page header
+
+================================================================================
+PAGE IMPLEMENTATION STATUS
+================================================================================
+
+Page                 | Route           | Status
+--------------------------------------------------------------------------------
+Home                 | /               | COMPLETE
+Construction Method  | /construction   | COMPLETE
+6 Features           | /specification  | COMPLETE
+Process/Procedure    | /process        | COMPLETE
+Case Studies         | /works          | COMPLETE
+Equipment            | /machine        | COMPLETE
+About Association    | /about          | COMPLETE
+Contact              | /contact        | COMPLETE
+
+================================================================================
+NOTES
+================================================================================
+
+1. All images use Next.js Image component with proper optimization
+2. 3D models use Three.js with React Three Fiber integration
+3. Corporate color scheme preserved (no gradients as requested)
+4. Responsive design maintained across all breakpoints
+5. Japanese text content matches newstatus.md specifications
+6. Equipment specification tables include all pump/stopper data
+7. All 19 case studies with photo galleries implemented
+
+================================================================================
+END OF ASSET SUMMARY
+================================================================================

@@ -2,7 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: [],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "rakuyuz.jp",
+        pathname: "/images/**",
+      },
+    ],
     formats: ["image/avif", "image/webp"],
   },
   experimental: {
