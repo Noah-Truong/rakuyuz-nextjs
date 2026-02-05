@@ -93,6 +93,11 @@ const config: Config = {
         card: "0 4px 12px rgba(0, 0, 0, 0.05)",
         elevated: "0 8px 24px rgba(0, 0, 0, 0.08)",
       },
+      textShadow: {
+        sm: "0 1px 2px rgba(0, 0, 0, 0.5)",
+        DEFAULT: "0 2px 4px rgba(0, 0, 0, 0.5)",
+        lg: "0 4px 8px rgba(0, 0, 0, 0.6)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "hero-gradient": "linear-gradient(180deg, #0f1729 0%, #1a2640 100%)",

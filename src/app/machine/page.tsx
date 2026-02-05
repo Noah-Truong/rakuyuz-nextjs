@@ -16,7 +16,19 @@ export default function MachinePage() {
     <div>
       {/* Hero Section */}
       <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 bg-primary-950">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary-900 to-primary-950" />
+        <div className="absolute inset-0">
+          <Image
+            src="/photos/water.png"
+            alt=""
+            fill
+            className="object-cover"
+            priority
+            quality={100}
+            sizes="100vw"
+            unoptimized
+          />
+          <div className="absolute inset-0 bg-primary-950/60" />
+        </div>
         <div className="container-custom relative z-10">
           <motion.div
             variants={fadeUpVariants}

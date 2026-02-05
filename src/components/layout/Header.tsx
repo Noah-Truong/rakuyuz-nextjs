@@ -15,10 +15,8 @@ export function Header() {
   const isScrolled = useHeaderScroll(20);
   const pathname = usePathname();
   
-  // Check if we're on the homepage (which has dark hero)
-  const isHomePage = pathname === "/";
-  // Always show solid header on non-home pages, or when scrolled
-  const showSolidHeader = !isHomePage || isScrolled;
+  // Always show solid white header
+  const showSolidHeader = true;
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "";
@@ -32,13 +30,13 @@ export function Header() {
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
           showSolidHeader
             ? "bg-white border-b border-slate-200 shadow-subtle"
-            : "bg-transparent"
+            : "bg-primary-950/70"
         )}
       >
         <div className="container-custom">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 flex-shrink-0 -ml-32">
+            <Link href="/" className="flex items-center flex-shrink-0 -ml-32">
               <div className="relative w-64 h-64 flex-shrink-0">
                 <Image
                   src="/photos/logo_01.png"
@@ -48,12 +46,6 @@ export function Header() {
                   priority
                 />
               </div>
-              <span className={cn(
-                "font-semibold text-sm whitespace-nowrap transition-colors",
-                showSolidHeader ? "text-primary-900" : "text-white"
-              )}>
-                ラクユーZ工法協会
-              </span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -127,8 +119,8 @@ export function Header() {
             <div className="flex flex-col justify-center items-center h-full">
               {/* Mobile Logo */}
               <div className="absolute top-4 left-6">
-                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2">
-                  <div className="relative w-10 h-10">
+                <Link href="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center">
+                  <div className="relative w-32 h-16">
                     <Image
                       src="/photos/logo_01.png"
                       alt="ラクユーZ工法協会"
@@ -136,9 +128,6 @@ export function Header() {
                       className="object-contain"
                     />
                   </div>
-                  <span className="font-semibold text-sm text-white whitespace-nowrap">
-                    ラクユーZ工法協会
-                  </span>
                 </Link>
               </div>
 

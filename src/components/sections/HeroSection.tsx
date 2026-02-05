@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { staggerContainerVariants, staggerItemVariants } from "@/lib/animations";
@@ -27,18 +28,21 @@ export function HeroSection() {
       ref={containerRef}
       className="relative min-h-[90vh] flex items-center bg-primary-950"
     >
-      {/* Simple gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary-900 to-primary-950" />
-      
-      {/* Subtle grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-                           linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: "80px 80px",
-        }}
-      />
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="/photos/pomp.png"
+          alt=""
+          fill
+          className="object-cover"
+          priority
+          quality={100}
+          sizes="100vw"
+          unoptimized
+        />
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-primary-950/10" />
+      </div>
 
       {/* Content */}
       <motion.div style={{ opacity }} className="container-custom relative z-10 py-24 md:py-32">
@@ -48,7 +52,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 bg-white/10 rounded text-sm text-white/80"
+            className="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-primary-950/80 backdrop-blur-sm rounded-full text-sm text-white font-medium text-shadow-sm border border-white/20"
           >
             <svg className="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 24 24">
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -61,11 +65,11 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-display-lg md:text-display-xl font-semibold text-white mb-5 leading-tight"
+            className="text-display-lg md:text-display-xl font-bold text-white mb-5 leading-tight text-shadow-lg"
           >
             維持管理時代の
             <br />
-            <span className="text-accent-400">水替え対策</span>
+            <span className="text-accent-300">水替え対策</span>
           </motion.h1>
 
           {/* Description */}
@@ -73,10 +77,13 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-slate-300 mb-8 max-w-xl leading-relaxed"
+            className="text-lg text-white mb-8 max-w-md leading-relaxed text-shadow font-medium"
           >
-            RAKUYU-Z工法は、供用中の下水道関連工事において、周辺環境の衛生面や安全面、
-            本工事の施工性と品質確保に応える不断水水替工法です。
+            RAKUYU-Z工法は、供用中の下水道関連工事において、
+            <br />
+            周辺環境の衛生面や安全面、本工事の施工性と
+            <br />
+            品質確保に応える不断水水替工法です。
           </motion.p>
 
           {/* CTA Buttons */}
@@ -104,15 +111,15 @@ export function HeroSection() {
             variants={staggerContainerVariants}
             initial="hidden"
             animate="visible"
-            className="flex flex-wrap justify-center lg:justify-start gap-8 pt-8 border-t border-white/10"
+            className="flex flex-wrap justify-center lg:justify-start gap-8 pt-8 border-t border-white/20"
           >
             {stats.map((stat) => (
               <motion.div key={stat.label} variants={staggerItemVariants}>
-                <div className="text-2xl md:text-3xl font-semibold text-white">
+                <div className="text-2xl md:text-3xl font-bold text-white text-shadow">
                   <StatNumber value={stat.value} />
-                  <span className="text-base text-slate-400 ml-1">{stat.suffix}</span>
+                  <span className="text-base text-white/90 ml-1 font-medium">{stat.suffix}</span>
                 </div>
-                <div className="text-sm text-slate-500 mt-1">{stat.label}</div>
+                <div className="text-sm text-white/70 mt-1 font-medium text-shadow-sm">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
