@@ -67,6 +67,7 @@ export default function MachinePage() {
               {/* 3D Model Viewer */}
               <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
                 <ModelViewer
+                  key={pumpSpecs[selectedPump].modelPath}
                   modelPath={pumpSpecs[selectedPump].modelPath}
                   className="w-full h-full"
                 />

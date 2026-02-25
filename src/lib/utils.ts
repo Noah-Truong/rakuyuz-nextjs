@@ -197,7 +197,7 @@ export const sixFeatures = [
     title: "大容量の水替でも設置撤去がスムーズ",
     beforeImage: "/photos/features/solution7_left.png",
     afterImage: "/photos/features/solution7_right.png",
-  },
+  }
 ];
 
 // Process steps
@@ -495,7 +495,7 @@ export const pumpSpecs = [
     voltage: "3相,200V",
     weight: "130",
     dimensions: "620×1150×580",
-    modelPath: "/models/pump-orange.glb",
+    modelPath: "/models/industrial+pump+3d+model (2).glb",
   },
   {
     model: "6インチポンプ",
@@ -505,7 +505,7 @@ export const pumpSpecs = [
     voltage: "3相,200V",
     weight: "560",
     dimensions: "1045×1735×1470",
-    modelPath: "/models/pump-unit.glb",
+    modelPath: "/models/industrial+pump+3d+model (3).glb",
   },
 ];
 

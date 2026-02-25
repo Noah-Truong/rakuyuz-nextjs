@@ -1,0 +1,16 @@
+.gallery-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+  }
+  .gallery-container img {
+    position: absolute;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  .gallery-container img.active {
+    opacity: 1;
+  }
+  

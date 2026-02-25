@@ -1,11 +1,89 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button, SectionHeader } from "@/components/ui/Button";
 import { sixFeatures } from "@/lib/utils";
 import { fadeUpVariants, staggerContainerVariants, staggerItemVariants } from "@/lib/animations";
+
+const galleryImages: string[] = [
+  '/photos/features/solution9_1.png',
+  '/photos/features/solution9_2.png',
+  '/photos/features/solution9_3.png'
+];
+
+const AutoGallery: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => 
+        prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 3000); // Change image every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  return (
+    <div className="relative w-full">
+      {/* Image Container */}
+      <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+            className="absolute inset-0"
+          >
+            <Image
+              src={galleryImages[currentIndex]}
+              alt={`水替スパンの移動 ${currentIndex + 1}`}
+              fill
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 800px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation Dots */}
+      <div className="flex justify-center gap-2 mt-4">
+        {galleryImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToSlide(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentIndex 
+                ? 'bg-accent-600 scale-110' 
+                : 'bg-slate-300 hover:bg-slate-400'
+            }`}
+            aria-label={`スライド ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Progress Bar */}
+      <div className="mt-3 h-1 bg-slate-200 rounded-full overflow-hidden">
+        <motion.div
+          key={currentIndex}
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 3, ease: "linear" }}
+          className="h-full bg-accent-600"
+        />
+      </div>
+    </div>
+  );
+};
 
 const categoryIcons: Record<string, React.ReactNode> = {
   "耐久性": (
@@ -199,6 +277,88 @@ export default function SpecificationPage() {
                 </div>
               </motion.div>
             ))}
+
+            {/* Feature 8 */}
+            <motion.div
+              variants={staggerItemVariants}
+              className="card p-6 md:p-8"
+            >
+              <div className="flex items-center gap-4 mb-6">
+                <span className="w-10 h-10 flex items-center justify-center rounded-full bg-accent-600 text-white font-bold text-lg">
+                  8
+                </span>
+                <span className="inline-flex items-center gap-2 px-3 py-1 bg-accent-50 rounded-full text-sm font-medium text-accent-700">
+                  {categoryIcons["施工性"]}
+                  施工性
+                </span>
+              </div>
+              <h3 className="text-lg md:text-xl font-semibold mb-6 text-primary-900">
+                マンホールポンプ場改修も省スペースで水替
+              </h3>
+              
+              <div className="grid md:grid-cols-2 gap-6">
+                {/* Before */}
+                <div className="relative">
+                  <div className="absolute -top-3 left-4 z-10">
+                    <span className="inline-block px-3 py-1 bg-slate-500 text-white text-xs font-bold rounded-full">
+                      BEFORE
+                    </span>
+                  </div>
+                  <div className="border-2 border-slate-300 rounded-lg p-4 pt-6">
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100">
+                      <Image
+                        src="/photos/features/solution8_left.png"
+                        alt="従来工法"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* After */}
+                <div className="relative">
+                  <div className="absolute -top-3 left-4 z-10">
+                    <span className="inline-block px-3 py-1 bg-accent-600 text-white text-xs font-bold rounded-full">
+                      AFTER
+                    </span>
+                  </div>
+                  <div className="border-2 border-accent-500 rounded-lg p-4 pt-6">
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100">
+                      <Image
+                        src="/photos/features/solution8_right.png"
+                        alt="RAKUYU-Z工法"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Feature 9: Movement Gallery */}
+          <motion.div
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="card p-6 md:p-8 max-w-5xl mx-auto mt-12"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <span className="w-10 h-10 flex items-center justify-center rounded-full bg-accent-600 text-white font-bold text-lg">
+                9
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1 bg-accent-50 rounded-full text-sm font-medium text-accent-700">
+                {categoryIcons["機動性"]}
+                機動性
+              </span>
+            </div>
+            <h3 className="text-lg md:text-xl font-semibold mb-6 text-primary-900">
+              水替スパンの移動がスムーズ
+            </h3>
+            <AutoGallery />
           </motion.div>
         </div>
       </section>

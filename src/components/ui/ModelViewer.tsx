@@ -6,9 +6,21 @@ import { motion } from "framer-motion";
 interface ModelViewerProps {
   modelPath: string;
   className?: string;
+  /** Position offset for the model [x, y, z] - applied after centering */
+  offset?: [number, number, number];
+  /** Custom scale multiplier (default: 2.5) */
+  scale?: number;
+  /** Camera position [x, y, z] (default: [4, 3, 4]) */
+  cameraPosition?: [number, number, number];
 }
 
-export function ModelViewer({ modelPath, className = "" }: ModelViewerProps) {
+export function ModelViewer({ 
+  modelPath, 
+  className = "",
+  offset = [0, 0, 0],
+  scale: customScale = 2.5,
+  cameraPosition = [4, 3, 4],
+}: ModelViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
@@ -16,6 +28,11 @@ export function ModelViewer({ modelPath, className = "" }: ModelViewerProps) {
 
   useEffect(() => {
     if (!containerRef.current) return;
+
+    // Reset state when model changes
+    setIsLoading(true);
+    setLoadProgress(0);
+    setError(null);
 
     let cleanup: (() => void) | undefined;
 
@@ -41,7 +58,7 @@ export function ModelViewer({ modelPath, className = "" }: ModelViewerProps) {
           0.1,
           1000
         );
-        camera.position.set(4, 3, 4);
+        camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 
         // Renderer - Optimized settings
         const renderer = new THREE.WebGLRenderer({
@@ -103,11 +120,16 @@ export function ModelViewer({ modelPath, className = "" }: ModelViewerProps) {
             const center = box.getCenter(new THREE.Vector3());
             const size = box.getSize(new THREE.Vector3());
             const maxDim = Math.max(size.x, size.y, size.z);
-            const scale = 2.5 / maxDim;
+            const scale = customScale / maxDim;
 
             model.scale.setScalar(scale);
             model.position.sub(center.multiplyScalar(scale));
             model.position.y = 0;
+            
+            // Apply custom offset
+            model.position.x += offset[0];
+            model.position.y += offset[1];
+            model.position.z += offset[2];
 
             // Optimize materials for performance
             model.traverse((child) => {
@@ -213,7 +235,7 @@ export function ModelViewer({ modelPath, className = "" }: ModelViewerProps) {
     return () => {
       if (cleanup) cleanup();
     };
-  }, [modelPath]);
+  }, [modelPath, offset, customScale, cameraPosition]);
 
   return (
     <div ref={containerRef} className={`relative w-full h-full ${className}`}>

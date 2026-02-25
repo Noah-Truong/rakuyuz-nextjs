@@ -1,15 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button, SectionHeader } from "@/components/ui/Button";
 import { processSteps } from "@/lib/utils";
 import { fadeUpVariants, staggerContainerVariants, staggerItemVariants } from "@/lib/animations";
 
 export default function ProcessPage() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isLightboxOpen) {
+        setIsLightboxOpen(false);
+      }
+    };
+    
+    if (isLightboxOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isLightboxOpen]);
 
   return (
     <div>
@@ -63,14 +82,25 @@ export default function ProcessPage() {
             <p className="text-sm text-slate-500 mb-6 text-center">
               （なお、点線で記した工種は必要な場合に別途考慮します。）
             </p>
-            <div className="relative aspect-[21/9] rounded-xl overflow-hidden shadow-card bg-white mb-8">
+            <button
+              onClick={() => setIsLightboxOpen(true)}
+              className="relative aspect-[2/1] md:aspect-[2/1] rounded-xl overflow-hidden shadow-card bg-white mb-8 w-full cursor-zoom-in group"
+            >
               <Image
                 src="/photos/procedure/flow_main_img.png"
                 alt="本工法の標準施工フロー"
                 fill
-                className="object-contain p-6"
+                className="object-contain p-1 md:p-2"
               />
-            </div>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 px-4 py-2 rounded-full text-sm font-medium text-primary-900 shadow-lg flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                  </svg>
+                  クリックで拡大
+                </span>
+              </div>
+            </button>
           </motion.div>
         </div>
       </section>
@@ -193,6 +223,53 @@ export default function ProcessPage() {
           </div>
         </div>
       </section>
+
+      {/* Fullscreen Lightbox */}
+      <AnimatePresence>
+        {isLightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+            onClick={() => setIsLightboxOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full h-full max-w-7xl max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src="/photos/procedure/flow_main_img.png"
+                alt="本工法の標準施工フロー"
+                fill
+                className="object-contain"
+                sizes="100vw"
+                priority
+              />
+            </motion.div>
+            
+            {/* Close Button */}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-4 right-4 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+              aria-label="閉じる"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Hint text */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white/60 text-sm">
+              クリックまたはEscキーで閉じる
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
