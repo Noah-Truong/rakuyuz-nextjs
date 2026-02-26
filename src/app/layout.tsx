@@ -93,6 +93,15 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        
+        {/* Preconnect to Google APIs for model-viewer */}
+        <link rel="preconnect" href="https://ajax.googleapis.com" />
+        
+        {/* Preload model-viewer script */}
+        <link
+          rel="modulepreload"
+          href="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"
+        />
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico" sizes="any" />

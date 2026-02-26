@@ -22,7 +22,7 @@ const AutoGallery: React.FC = () => {
       setCurrentIndex((prevIndex) => 
         prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 3000); // Change image every 3 seconds
+    }, 6000); // Change image every 6 seconds
 
     return () => clearInterval(interval);
   }, []);
@@ -69,17 +69,6 @@ const AutoGallery: React.FC = () => {
             aria-label={`スライド ${index + 1}`}
           />
         ))}
-      </div>
-
-      {/* Progress Bar */}
-      <div className="mt-3 h-1 bg-slate-200 rounded-full overflow-hidden">
-        <motion.div
-          key={currentIndex}
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 3, ease: "linear" }}
-          className="h-full bg-accent-600"
-        />
       </div>
     </div>
   );
@@ -228,6 +217,11 @@ export default function SpecificationPage() {
                           className="object-contain"
                         />
                       </div>
+                      {feature.beforeTitle2 && (
+                        <p className="text-slate-600 font-medium mb-4 text-center text-sm mt-4">
+                          {feature.beforeTitle2}
+                        </p>
+                      )}
                       {feature.beforeImage2 && (
                         <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 mt-4">
                           <Image
@@ -262,6 +256,11 @@ export default function SpecificationPage() {
                           className="object-contain"
                         />
                       </div>
+                      {feature.afterTitle2 && (
+                        <p className="text-accent-700 font-bold mb-4 text-center text-sm mt-4">
+                          {feature.afterTitle2}
+                        </p>
+                      )}
                       {feature.afterImage2 && (
                         <div className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 mt-4">
                           <Image

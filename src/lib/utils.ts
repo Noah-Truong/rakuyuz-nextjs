@@ -168,9 +168,11 @@ export const sixFeatures = [
     title: "人孔内に潜水ポンプの設置ができない場所でもOK!",
     beforeTitle: "人孔内に潜水ポンプの設置ができない。",
     beforeImage: "/photos/features/solution_s_left1.png",
+    beforeTitle2: "重機など大掛かりに",
     beforeImage2: "/photos/features/solution_s_left2.png",
     afterTitle: "特殊ポンプは、吸込ホースを投入するだけ！",
     afterImage: "/photos/features/solution_s_right1.png",
+    afterTitle2: "重機不要。２台目設置も容易！",
     afterImage2: "/photos/features/solution_s_right2.png",
   },
   {
@@ -485,7 +487,7 @@ export const pumpSpecs = [
     voltage: "3相,200V",
     weight: "75",
     dimensions: "400×840×650",
-    modelPath: "/models/industrial-pump.glb",
+    modelPath: "/models/pump-orange.glb",
   },
   {
     model: "4インチポンプ",
@@ -495,7 +497,7 @@ export const pumpSpecs = [
     voltage: "3相,200V",
     weight: "130",
     dimensions: "620×1150×580",
-    modelPath: "/models/industrial+pump+3d+model (2).glb",
+    modelPath: "/models/pump-unit.glb",
   },
   {
     model: "6インチポンプ",
@@ -505,7 +507,7 @@ export const pumpSpecs = [
     voltage: "3相,200V",
     weight: "560",
     dimensions: "1045×1735×1470",
-    modelPath: "/models/industrial+pump+3d+model (3).glb",
+    modelPath: "/models/industrial-pump.glb",
   },
 ];
 

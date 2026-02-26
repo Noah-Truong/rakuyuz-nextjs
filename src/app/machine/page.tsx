@@ -155,7 +155,7 @@ export default function MachinePage() {
         </div>
       </section>
 
-      {/* Water Flow Plug Section */}
+      {/* RAKUYU-Z Water Pump Section with Subsections */}
       <section className="section bg-slate-50">
         <div className="container-custom">
           <motion.div
@@ -165,87 +165,126 @@ export default function MachinePage() {
             viewport={{ once: true }}
           >
             <SectionHeader
-              label="Water Flow Plug"
-              title="通水器（ラクユーZ）"
-              description="管径に応じた通水プラグの仕様一覧です。"
+              label="RAKUYU-Z Water Pump"
+              title="通水ポンプ（ラクユーZ）"
+              description="通水プラグとストッパーの仕様一覧です。"
               align="left"
             />
 
-            <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white max-w-5xl mx-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">機種</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">適用管径 (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">外径 (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">長さ (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">水頭 (m)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">重量 (Kg)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">バイパス径 (mm)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {waterFlowPlugSpecs.map((spec) => (
-                    <tr key={spec.model} className="hover:bg-slate-50">
-                      <td className="px-4 py-3 font-medium text-primary-900">{spec.model}</td>
-                      <td className="px-4 py-3">{spec.diameter}</td>
-                      <td className="px-4 py-3">{spec.outerDiam}</td>
-                      <td className="px-4 py-3">{spec.length}</td>
-                      <td className="px-4 py-3">{spec.head}</td>
-                      <td className="px-4 py-3">{spec.weight}</td>
-                      <td className="px-4 py-3">{spec.bypass}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+            {/* Subsections Container */}
+            <div className="space-y-8">
+              {/* Water Flow Plug Subsection */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-card p-6 md:p-8">
+                <h3 className="text-xl font-semibold text-primary-900 mb-2">通水器（ラクユーZ）</h3>
+                <p className="text-slate-600 mb-6">管径に応じた通水プラグの仕様一覧です。</p>
 
-      {/* Stopper Section */}
-      <section className="section">
-        <div className="container-custom">
-          <motion.div
-            variants={fadeUpVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <SectionHeader
-              label="Stopper"
-              title="ラクユーZ・ストッパー"
-              description="大口径管に対応したストッパーの仕様一覧です。"
-              align="left"
-            />
+                {/* 3D Model Viewers */}
+                <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-4xl mx-auto">
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                    <ModelViewer
+                      key="/models/mechanical-flange-3d-model.glb"
+                      modelPath="/models/mechanical-flange-3d-model.glb"
+                      className="w-full h-full"
+                    />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                        ドラッグで回転 • スクロールで拡大
+                      </span>
+                    </div>
+                  </div>
 
-            <div className="overflow-x-auto rounded-xl border border-slate-200 max-w-5xl mx-auto">
-              <table className="w-full text-sm">
-                <thead className="bg-slate-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">機種</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">適用管径 (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">外径 (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">長さ (mm)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">水頭 (m)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">重量 (Kg)</th>
-                    <th className="px-4 py-3 text-left font-medium text-slate-700">バイパス径 (mm)</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-200">
-                  {stopperSpecs.map((spec) => (
-                    <tr key={spec.model} className="hover:bg-slate-50">
-                      <td className="px-4 py-3 font-medium text-primary-900">{spec.model}</td>
-                      <td className="px-4 py-3">{spec.diameter}</td>
-                      <td className="px-4 py-3">{spec.outerDiam}</td>
-                      <td className="px-4 py-3">{spec.length}</td>
-                      <td className="px-4 py-3">{spec.head}</td>
-                      <td className="px-4 py-3">{spec.weight}</td>
-                      <td className="px-4 py-3">{spec.bypass}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                    <ModelViewer
+                      key="/models/circular-mechanical-hatch-3d-model.glb"
+                      modelPath="/models/circular-mechanical-hatch-3d-model.glb"
+                      className="w-full h-full"
+                    />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                        ドラッグで回転 • スクロールで拡大
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto rounded-xl border border-slate-200">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">機種</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">適用管径 (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">外径 (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">長さ (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">水頭 (m)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">重量 (Kg)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">バイパス径 (mm)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {waterFlowPlugSpecs.map((spec) => (
+                        <tr key={spec.model} className="hover:bg-slate-50">
+                          <td className="px-4 py-3 font-medium text-primary-900">{spec.model}</td>
+                          <td className="px-4 py-3">{spec.diameter}</td>
+                          <td className="px-4 py-3">{spec.outerDiam}</td>
+                          <td className="px-4 py-3">{spec.length}</td>
+                          <td className="px-4 py-3">{spec.head}</td>
+                          <td className="px-4 py-3">{spec.weight}</td>
+                          <td className="px-4 py-3">{spec.bypass}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Stopper Subsection */}
+              <div className="bg-white rounded-2xl border border-slate-200 shadow-card p-6 md:p-8">
+                <h3 className="text-xl font-semibold text-primary-900 mb-2">ラクユーZ・ストッパー</h3>
+                <p className="text-slate-600 mb-6">大口径管に対応したストッパーの仕様一覧です。</p>
+
+                {/* 3D Model Viewer */}
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card mb-8 max-w-xl mx-auto">
+                  <ModelViewer
+                    key="/models/r-zs-1800-machinery-model.glb"
+                    modelPath="/models/r-zs-1800-machinery-model.glb"
+                    className="w-full h-full"
+                  />
+                  <div className="absolute bottom-4 left-0 right-0 text-center">
+                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                      ドラッグで回転 • スクロールで拡大
+                    </span>
+                  </div>
+                </div>
+
+                <div className="overflow-x-auto rounded-xl border border-slate-200">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">機種</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">適用管径 (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">外径 (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">長さ (mm)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">水頭 (m)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">重量 (Kg)</th>
+                        <th className="px-4 py-3 text-left font-medium text-slate-700">バイパス径 (mm)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      {stopperSpecs.map((spec) => (
+                        <tr key={spec.model} className="hover:bg-slate-50">
+                          <td className="px-4 py-3 font-medium text-primary-900">{spec.model}</td>
+                          <td className="px-4 py-3">{spec.diameter}</td>
+                          <td className="px-4 py-3">{spec.outerDiam}</td>
+                          <td className="px-4 py-3">{spec.length}</td>
+                          <td className="px-4 py-3">{spec.head}</td>
+                          <td className="px-4 py-3">{spec.weight}</td>
+                          <td className="px-4 py-3">{spec.bypass}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>
