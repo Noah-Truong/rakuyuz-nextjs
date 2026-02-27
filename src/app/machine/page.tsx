@@ -171,13 +171,26 @@ export default function MachinePage() {
               align="left"
             />
 
+            {/* 3D Models of industrial water pumps */}
+            <div className="justify-center gap-6 mb-8 max-w-xl mx-auto">
+              <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                <ModelViewer
+                  key="/models/gas-cylinder-3d-model.glb"
+                  modelPath="/models/gas-cylinder-3d-model.glb"
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+
             {/* Subsections Container */}
             <div className="space-y-8">
               {/* Water Flow Plug Subsection */}
               <div className="bg-white rounded-2xl border border-slate-200 shadow-card p-6 md:p-8">
                 <h3 className="text-xl font-semibold text-primary-900 mb-2">通水器（ラクユーZ）</h3>
                 <p className="text-slate-600 mb-6">管径に応じた通水プラグの仕様一覧です。</p>
-
+              
+              
+            
                 {/* 3D Model Viewers */}
                 <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-4xl mx-auto">
                   <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
@@ -243,18 +256,34 @@ export default function MachinePage() {
                 <p className="text-slate-600 mb-6">大口径管に対応したストッパーの仕様一覧です。</p>
 
                 {/* 3D Model Viewer */}
-                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card mb-8 max-w-xl mx-auto">
-                  <ModelViewer
-                    key="/models/r-zs-1800-machinery-model.glb"
-                    modelPath="/models/r-zs-1800-machinery-model.glb"
-                    className="w-full h-full"
-                  />
-                  <div className="absolute bottom-4 left-0 right-0 text-center">
-                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
-                      ドラッグで回転 • スクロールで拡大
-                    </span>
+                <div className="grid md:grid-cols-2 gap-6 mb-8 max-w-4xl mx-auto">
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                    <ModelViewer
+                      key="/models/surveying-instrument-3d-model.glb"
+                      modelPath="/models/surveying-instrument-3d-model.glb"
+                      className="w-full h-full"
+                    />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                        ドラッグで回転 • スクロールで拡大
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                    <ModelViewer
+                      key="/models/r-zs-1800-machinery-model.glb"
+                      modelPath="/models/r-zs-1800-machinery-model.glb"
+                      className="w-full h-full"
+                    />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                        ドラッグで回転 • スクロールで拡大
+                      </span>
+                    </div>
                   </div>
                 </div>
+                
 
                 <div className="overflow-x-auto rounded-xl border border-slate-200">
                   <table className="w-full text-sm">
@@ -290,8 +319,62 @@ export default function MachinePage() {
         </div>
       </section>
 
-      {/* Other Equipment Section */}
+      {/* Automatic Control System Section */}
+      <section className="section">
+        <div className="container-custom">
+          <motion.div
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <SectionHeader
+              label="Automatic Control System"
+              title="自動制御システム（制御盤）"
+              description="ポンプの自動運転・監視制御を行う制御盤です。"
+            />
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 shadow-card">
+                <Image src="/photos/machine/machine_img7.png" alt="自動制御システム（制御盤）" fill className="object-cover" />
+              </div>
+              <div className="card">
+                <h3 className="text-xl font-semibold text-primary-900 mb-2">自動制御システム（制御盤）</h3>
+                <p className="text-slate-600">ポンプの自動運転・監視制御を行う制御盤です。施工中のポンプ稼働状況をリアルタイムで監視・制御し、安全で効率的な排水作業を実現します。</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Temporary Drainage Pipe Section */}
       <section className="section bg-slate-50">
+        <div className="container-custom">
+          <motion.div
+            variants={fadeUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <SectionHeader
+              label="Temporary Drainage Pipe"
+              title="仮排水管"
+              description="迂回排水用の仮設配管システムです。"
+            />
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="relative aspect-video rounded-xl overflow-hidden bg-slate-100 shadow-card">
+                <Image src="/photos/machine/machine_img8.png" alt="仮排水管" fill className="object-cover" />
+              </div>
+              <div className="card">
+                <h3 className="text-xl font-semibold text-primary-900 mb-2">仮排水管</h3>
+                <p className="text-slate-600">迂回排水用の仮設配管システムです。施工箇所周辺の排水を安全に迂回させ、工事中の水流を適切に管理します。</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Other Equipment Section */}
+      <section className="section">
         <div className="container-custom">
           <motion.div
             variants={fadeUpVariants}
@@ -310,33 +393,9 @@ export default function MachinePage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+              className="flex justify-center max-w-5xl mx-auto"
             >
-              <motion.div variants={staggerItemVariants} className="card text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-accent-50 rounded-full flex items-center justify-center">
-                  <svg className="w-10 h-10 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-primary-900 mb-2">自動制御システム（制御盤）</h4>
-                <p className="text-sm text-slate-500">
-                  ポンプの自動運転・監視制御を行う制御盤
-                </p>
-              </motion.div>
-
-              <motion.div variants={staggerItemVariants} className="card text-center">
-                <div className="w-20 h-20 mx-auto mb-4 bg-accent-50 rounded-full flex items-center justify-center">
-                  <svg className="w-10 h-10 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-                  </svg>
-                </div>
-                <h4 className="font-semibold text-primary-900 mb-2">仮排水管</h4>
-                <p className="text-sm text-slate-500">
-                  迂回排水用の仮設配管システム
-                </p>
-              </motion.div>
-
-              <motion.div variants={staggerItemVariants} className="card text-center">
+              <motion.div variants={staggerItemVariants} className="card text-center max-w-sm w-full">
                 <div className="w-20 h-20 mx-auto mb-4 bg-accent-50 rounded-full flex items-center justify-center">
                   <svg className="w-10 h-10 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
