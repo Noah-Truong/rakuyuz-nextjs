@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -48,6 +48,21 @@ export default function WorksPage() {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeRegion, setActiveRegion] = useState("all");
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
+
+  const openLightbox = useCallback((src: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setLightboxImage(src);
+  }, []);
+
+  const closeLightbox = useCallback(() => setLightboxImage(null), []);
+
+  useEffect(() => {
+    if (!lightboxImage) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") closeLightbox(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [lightboxImage, closeLightbox]);
 
   const filteredProjects = useMemo(() => {
     return caseStudies.filter((project) => {
@@ -157,7 +172,10 @@ export default function WorksPage() {
                   onClick={() => setSelectedProject(project.id)}
                 >
                   {/* Project Image */}
-                  <div className="relative aspect-[4/3] -mx-6 -mt-6 mb-4 overflow-hidden bg-slate-100 rounded-t-lg">
+                  <div
+                    className="relative aspect-[4/3] -mx-6 -mt-6 mb-4 overflow-hidden bg-slate-100 rounded-t-lg cursor-zoom-in"
+                    onClick={(e) => openLightbox(`/photos/construction examples/${project.folder}/${project.images[0]}`, e)}
+                  >
                     <Image
                       src={`/photos/construction examples/${project.folder}/${project.images[0]}`}
                       alt={project.title}
@@ -168,6 +186,13 @@ export default function WorksPage() {
                     <div className="absolute bottom-4 left-4 right-4">
                       <span className="inline-block px-2 py-1 bg-accent-600 text-white text-xs rounded">
                         {project.location}
+                      </span>
+                    </div>
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <span className="flex items-center justify-center w-8 h-8 rounded-full bg-black/50 text-white">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0zm-2 0h-4m2-2v4" />
+                        </svg>
                       </span>
                     </div>
                   </div>
@@ -259,14 +284,23 @@ export default function WorksPage() {
                     {/* Photo Gallery */}
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {project.images.map((img, index) => (
-                        <div key={index} className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100">
+                        <div
+                          key={index}
+                          className="relative aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 cursor-zoom-in group/photo"
+                          onClick={(e) => openLightbox(`/photos/construction examples/${project.folder}/${img}`, e)}
+                        >
                           <Image
                             src={`/photos/construction examples/${project.folder}/${img}`}
                             alt={`${project.title} - ${index + 1}`}
                             fill
                             sizes="(max-width: 768px) 50vw, 33vw"
-                            className="object-contain"
+                            className="object-contain group-hover/photo:scale-105 transition-transform duration-300"
                           />
+                          <div className="absolute inset-0 bg-black/0 group-hover/photo:bg-black/20 transition-colors flex items-center justify-center">
+                            <svg className="w-8 h-8 text-white opacity-0 group-hover/photo:opacity-100 transition-opacity drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
+                            </svg>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -274,6 +308,46 @@ export default function WorksPage() {
                 );
               })()}
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Lightbox */}
+      <AnimatePresence>
+        {lightboxImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[60] bg-black/95 flex items-center justify-center p-4"
+            onClick={closeLightbox}
+          >
+            <button
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              onClick={closeLightbox}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative w-full max-w-5xl max-h-[85vh] aspect-[4/3]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Image
+                src={lightboxImage}
+                alt="拡大表示"
+                fill
+                sizes="100vw"
+                className="object-contain"
+                unoptimized
+              />
+            </motion.div>
+            <p className="absolute bottom-4 text-white/40 text-xs">クリックまたは Esc で閉じる</p>
           </motion.div>
         )}
       </AnimatePresence>

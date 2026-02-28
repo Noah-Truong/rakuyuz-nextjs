@@ -172,13 +172,18 @@ export default function MachinePage() {
             />
 
             {/* 3D Models of industrial water pumps */}
-            <div className="justify-center gap-6 mb-8 max-w-xl mx-auto">
+            <div className="justify-center gap-6 mb-8 max-w-xs mx-auto">
               <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
                 <ModelViewer
                   key="/models/gas-cylinder-3d-model.glb"
                   modelPath="/models/gas-cylinder-3d-model.glb"
                   className="w-full h-full"
                 />
+                <div className="absolute bottom-4 left-0 right-0 text-center">
+                  <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                    ドラッグで回転 • スクロールで拡大
+                  </span>
+                </div>
               </div>
             </div>
 
@@ -398,24 +403,8 @@ export default function MachinePage() {
              {/* 3D Model Viewer */}
              <div className="grid md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
               <div className="flex flex-col">
-                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">コンプレッサーLT</h3>
-                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
-                  <ModelViewer
-                    key="/models/air-compressor-3d-model.glb"
-                    modelPath="/models/air-compressor-3d-model.glb"
-                    className="w-full h-full"
-                  />
-                  <div className="absolute bottom-4 left-0 right-0 text-center">
-                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
-                      ドラッグで回転 • スクロールで拡大
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex flex-col">
-                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">コンプレッサーST</h3>
-                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-4">コンプレッサーLT</h3>
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">                 
                   <ModelViewer
                     key="/models/vacuum-pump-3d-model.glb"
                     modelPath="/models/vacuum-pump-3d-model.glb"
@@ -430,7 +419,23 @@ export default function MachinePage() {
               </div>
 
               <div className="flex flex-col">
-                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">ダストキャップ</h3>
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-4">コンプレッサーST</h3>
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                <ModelViewer
+                    key="/models/air-compressor-3d-model.glb"
+                    modelPath="/models/air-compressor-3d-model.glb"
+                    className="w-full h-full"
+                  />
+                  <div className="absolute bottom-4 left-0 right-0 text-center">
+                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                      ドラッグで回転 • スクロールで拡大
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-4">ダストキャップ</h3>
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
                   <ModelViewer
                     key="/models/metal-pot-set-3d-model.glb"
