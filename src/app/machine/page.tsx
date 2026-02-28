@@ -395,17 +395,56 @@ export default function MachinePage() {
               viewport={{ once: true }}
               className="flex justify-center max-w-5xl mx-auto"
             >
-              <motion.div variants={staggerItemVariants} className="card text-center max-w-sm w-full">
-                <div className="w-20 h-20 mx-auto mb-4 bg-accent-50 rounded-full flex items-center justify-center">
-                  <svg className="w-10 h-10 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                  </svg>
+             {/* 3D Model Viewer */}
+             <div className="grid md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
+              <div className="flex flex-col">
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">コンプレッサーLT</h3>
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                  <ModelViewer
+                    key="/models/air-compressor-3d-model.glb"
+                    modelPath="/models/air-compressor-3d-model.glb"
+                    className="w-full h-full"
+                  />
+                  <div className="absolute bottom-4 left-0 right-0 text-center">
+                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                      ドラッグで回転 • スクロールで拡大
+                    </span>
+                  </div>
                 </div>
-                <h4 className="font-semibold text-primary-900 mb-2">コンプレッサー</h4>
-                <p className="text-sm text-slate-500">
-                  LT型・ST型のエアコンプレッサー
-                </p>
-              </motion.div>
+              </div>
+
+              <div className="flex flex-col">
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">コンプレッサーST</h3>
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                  <ModelViewer
+                    key="/models/vacuum-pump-3d-model.glb"
+                    modelPath="/models/vacuum-pump-3d-model.glb"
+                    className="w-full h-full"
+                  />
+                  <div className="absolute bottom-4 left-0 right-0 text-center">
+                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                      ドラッグで回転 • スクロールで拡大
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col">
+                <h3 className="text-xl text-center font-semibold text-primary-900 mb-8">ダストキャップ</h3>
+                <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">
+                  <ModelViewer
+                    key="/models/metal-pot-set-3d-model.glb"
+                    modelPath="/models/metal-pot-set-3d-model.glb"
+                    className="w-full h-full"
+                  />
+                  <div className="absolute bottom-4 left-0 right-0 text-center">
+                    <span className="text-xs text-slate-500 bg-white/90 px-3 py-1 rounded-full">
+                      ドラッグで回転 • スクロールで拡大
+                    </span>
+                  </div>
+                </div>
+              </div>
+             </div>
             </motion.div>
           </motion.div>
         </div>
