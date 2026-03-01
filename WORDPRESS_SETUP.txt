@@ -1,283 +1,433 @@
 ================================================================================
   WORDPRESS CONFIGURATION GUIDE — ラクユーZ工法協会 Next.js Site
+  (All-Free Stack)
 ================================================================================
 
-This file documents how to configure WordPress to power the News/Announcements
-and Downloads sections of the Next.js front-end.
-
 ────────────────────────────────────────────────────────────────────────────────
-1. ENVIRONMENT VARIABLE
+HOSTING ARCHITECTURE — TWO SEPARATE SERVICES
 ────────────────────────────────────────────────────────────────────────────────
 
-In .env.local (Next.js project root), set:
+  Next.js Front-End  →  Vercel (free)
+  ─────────────────────────────────────
+  • Already deployed or will be deployed to vercel.com
+  • Free tier covers this project fully (no traffic limits concern)
+  • Set NEXT_PUBLIC_WP_API_URL in Vercel dashboard:
+    Project → Settings → Environment Variables → add key/value
 
-  NEXT_PUBLIC_WP_API_URL=https://your-wordpress-domain.com
+  WordPress CMS Back-End  →  Separate PHP host ($3–10/mo)
+  ─────────────────────────────────────────────────────────
+  • Vercel CANNOT host WordPress — WordPress requires PHP + MySQL
+  • You need a traditional web host for WordPress only
+  • Recommended budget options:
+      Hostinger Business:  ~$3/mo (intro), ~$8/mo renewal
+      SiteGround Startup:  ~$4/mo (intro), ~$15/mo renewal
+      DigitalOcean Droplet: $6/mo (requires basic server knowledge)
+  • Both Hostinger and SiteGround include:
+      - One-click WordPress install
+      - Free Let's Encrypt SSL
+      - Free domain for first year (SiteGround)
+      - cPanel or hPanel for easy management
 
-Replace with your real WordPress domain. While this is set to the placeholder
-value, the site automatically shows preview/mock data. Once a real URL is set,
-all news and document data are pulled live from the WordPress REST API.
+  The two services connect via the WordPress REST API:
+    WordPress (your-wp-domain.com) ←→ REST API ←→ Vercel Next.js site
+
+────────────────────────────────────────────────────────────────────────────────
+1. ENVIRONMENT VARIABLE (Next.js)
+────────────────────────────────────────────────────────────────────────────────
+
+  For local development — in .env.local:
+    NEXT_PUBLIC_WP_API_URL=https://your-wordpress-domain.com
+
+  For production — in Vercel dashboard:
+    Project → Settings → Environment Variables
+    Key:   NEXT_PUBLIC_WP_API_URL
+    Value: https://your-wordpress-domain.com
+    Environment: Production, Preview, Development
+
+  While this is set to "your-wordpress-site.com", the site shows mock/preview
+  data. Replace it with your real WordPress domain to go live.
 
 ────────────────────────────────────────────────────────────────────────────────
 2. WORDPRESS INSTALLATION
 ────────────────────────────────────────────────────────────────────────────────
 
-Use a lean, custom theme — avoid page builders (Elementor, etc.) to keep the
-WordPress install fast and maintainable. A simple child theme or starter theme
-(e.g. Underscores, GeneratePress) is recommended.
+  1. Sign up for Hostinger or SiteGround
+  2. Use their one-click WordPress installer (available in hPanel/cPanel)
+  3. Set up a domain or subdomain, e.g.:
+       cms.your-main-domain.com  (if you want WordPress hidden)
+       OR
+       your-main-domain.com/wp  (subfolder install)
+  4. Complete the WordPress 5-minute install wizard
 
-Permalink structure: Settings → Permalinks → Post name (/slug/)
-  This is required for clean REST API category slug filtering.
+  Permalink structure (REQUIRED — REST API depends on this):
+    WordPress Admin → Settings → Permalinks → select "Post name"
+    Save Changes.
+
+  Theme:
+    Use a minimal theme — avoid Elementor, Divi, or WPBakery.
+    Recommended free options:
+      • Astra (free) — fast, minimal, REST-API friendly
+      • GeneratePress (free tier) — extremely lightweight
+    No visual customization needed since the front-end is Next.js.
+    The WordPress theme only affects wp-admin appearance.
 
 ────────────────────────────────────────────────────────────────────────────────
-3. REQUIRED PLUGINS
+3. PLUGINS (FREE ONLY)
 ────────────────────────────────────────────────────────────────────────────────
 
-Keep the plugin count minimal. Install only:
+Install only these plugins. Keep it minimal.
 
-  a) Security
-     • Wordfence Security (wordfence.com) — firewall + login protection
-       OR
-     • WP Cerber Security — also disables XML-RPC, limits login attempts
+  a) Security: Wordfence Security (free)
+     ─────────────────────────────────────
+     Plugin slug: wordfence
+     Install: Plugins → Add New → search "Wordfence" → Install → Activate
+     Configuration:
+       • Run initial setup wizard
+       • Firewall → Manage Firewall → set to "Learning Mode" for 1 week,
+         then switch to "Enabled and Protecting"
+       • Brute Force Protection:
+           Lock out after 5 failed login attempts
+           Lock out duration: 30 minutes
+           Count failures over: 5 minutes
+       • Scan → Schedule: Weekly (free tier limitation — real-time on premium)
+     Free tier limitation:
+       • Threat signature updates are delayed 30 days vs real-time on premium
+       • Acceptable for a low-traffic association site
 
-  b) Backup
-     • UpdraftPlus — scheduled backups to cloud storage (Google Drive, S3, etc.)
-       Configure: daily database backup, weekly full-site backup
+  b) Backup: UpdraftPlus (free)
+     ────────────────────────────
+     Plugin slug: updraftplus
+     Install: Plugins → Add New → search "UpdraftPlus" → Install → Activate
+     Configuration:
+       • Settings → UpdraftPlus Backups → Settings tab
+       • Remote storage: select Google Drive (free, requires Google account)
+         OR Dropbox, or leave as "Email" for small sites
+       • Free tier limitation: NO automatic scheduling
+         Workaround: Set a recurring calendar reminder (e.g. every Monday)
+         to go to Settings → UpdraftPlus → Backup Now
+       • What to back up: check Database + Files
+       • Keep: 3 scheduled backups
 
-  c) SEO
-     • Yoast SEO — meta tags, sitemaps, Open Graph
-       OR
-     • Rank Math — lightweight alternative
+  c) SEO: Yoast SEO (free)
+     ────────────────────────
+     Plugin slug: wordpress-seo
+     Install: Plugins → Add New → search "Yoast SEO" → Install → Activate
+     Configuration:
+       • Run the setup wizard
+       • Organization name: ラクユーZ工法協会
+       • Enable XML sitemap: Yes (submit to Google Search Console)
+       • Social → add your organization's social URLs if applicable
+     Free tier covers:
+       ✓ Meta title + description for all posts/pages
+       ✓ XML sitemap
+       ✓ Open Graph / Twitter cards
+       ✗ Redirect manager (not needed — Next.js handles routing)
+       ✗ Internal linking suggestions (not needed for this use case)
 
-  d) Contact Form
-     • Contact Form 7 (CF7) — for the /contact page form
-       Integrate with Flamingo (CF7 companion) to store submissions in DB
+  d) Contact Form: Contact Form 7 (free)
+     ─────────────────────────────────────
+     Plugin slug: contact-form-7
+     Install: Plugins → Add New → search "Contact Form 7" → Install → Activate
+     Note: The contact form on the Next.js site may be handled separately.
+     CF7 is useful if you want a WordPress-hosted fallback contact page.
+     Optional: also install "Flamingo" (free, by CF7 author) to save
+     form submissions to the WordPress database.
 
-  e) Custom Post Types + Fields
-     • Advanced Custom Fields (ACF) — Free tier is sufficient
-       Used for document metadata (file URL, file size, category)
-     • Custom Post Type UI (CPT UI)
-       Used to register the "document" post type
+  e) Custom Fields: Advanced Custom Fields — ACF (free)
+     ──────────────────────────────────────────────────────
+     Plugin slug: advanced-custom-fields
+     Install: Plugins → Add New → search "Advanced Custom Fields"
+              → Install → Activate
+     Free tier covers ALL field types needed for this project:
+       ✓ Text, Textarea, URL, Select, File — all free
+       ✗ Repeater field — NOT needed for our document structure
+       ✗ Flexible content — NOT needed
+     See Section 6 for field setup.
+
+  f) Custom Post Types: Custom Post Type UI (free)
+     ────────────────────────────────────────────────
+     Plugin slug: custom-post-type-ui
+     Install: Plugins → Add New → search "Custom Post Type UI"
+              → Install → Activate
+     See Section 6 for post type setup.
+
+  g) ACF REST API support
+     ────────────────────────────────────────────────
+     ACF free does not expose custom fields in the REST API by default.
+     Fix — add this to your theme's functions.php:
+
+       add_filter('acf/rest/get_fields', '__return_true');
+
+     OR install the free plugin: "ACF to REST API"
+       Plugin slug: acf-to-rest-api
+       This exposes all ACF fields under the "acf" key in REST responses,
+       which is exactly what the Next.js code expects.
 
 ────────────────────────────────────────────────────────────────────────────────
 4. USER ROLES
 ────────────────────────────────────────────────────────────────────────────────
 
-Configure two roles:
+  Two roles to configure:
 
-  ADMIN (our team)
-  ─────────────────
-  • Full access to all settings, plugins, themes, user management
-  • Can install/update plugins and themes
-  • Can manage all post types, categories, media
+  ADMIN (your development team)
+  ──────────────────────────────
+  • Default WordPress Administrator role
+  • Full access to everything
 
-  EDITOR (client — Kyokan association staff)
-  ───────────────────────────────────────────
-  • Can create, edit, publish, and delete:
-      - Posts (News & Announcements)
-      - Documents (Downloads)
-  • Can manage Categories and Media Library
-  • CANNOT access:
-      - Theme settings or Customizer
-      - Plugin configuration screens
-      - Settings menu (General, Permalinks, etc.)
-      - User management (cannot create Admins)
+  EDITOR (client — association staff who post news and upload documents)
+  ───────────────────────────────────────────────────────────────────────
+  • Use the built-in WordPress "Editor" role — it already has the right
+    default capabilities for this project at no cost:
+      ✓ Create, edit, publish, delete Posts (News)
+      ✓ Create, edit, publish, delete Documents (custom post type)
+      ✓ Upload files to Media Library (for PDFs)
+      ✓ Manage Categories
+      ✗ Cannot access Settings, Plugins, Themes, Users → perfect
+  • When creating the custom "document" post type in CPT UI (Section 6),
+    make sure to set "Capability Type" to "post" so the Editor role
+    automatically has access without extra configuration.
 
-  To enforce Editor restrictions, use the "User Role Editor" plugin or
-  "Members" plugin to remove caps: manage_options, install_plugins,
-  edit_theme_options, update_core, etc.
+  To create an Editor account:
+    WordPress Admin → Users → Add New
+    Role: Editor
+    Send the login credentials to the client.
 
 ────────────────────────────────────────────────────────────────────────────────
 5. NEWS POST CATEGORIES
 ────────────────────────────────────────────────────────────────────────────────
 
-Go to Posts → Categories and create exactly these three categories.
-The slugs MUST match exactly — the Next.js front-end filters by slug.
+  Go to Posts → Categories and create exactly these three.
+  The slugs MUST match exactly — Next.js filters by slug.
 
-  Name: お知らせ (Notice)        Slug: info
-  Name: 資料追加 (New Document)  Slug: download
-  Name: 受賞報告 (Award)         Slug: award
+  ┌────────────────────────┬──────────┬───────────────────────────────────┐
+  │ Name                   │ Slug     │ Use Case                          │
+  ├────────────────────────┼──────────┼───────────────────────────────────┤
+  │ お知らせ (Notice)      │ info     │ Business hours, holiday closures. │
+  │                        │          │ Example: "We will be closed       │
+  │                        │          │ Dec 28 – Jan 5 for New Year."     │
+  ├────────────────────────┼──────────┼───────────────────────────────────┤
+  │ 資料追加 (New Doc)     │ download │ When a new PDF is added to the    │
+  │                        │          │ downloads page. Example: "2026    │
+  │                        │          │ Construction Manual uploaded."    │
+  ├────────────────────────┼──────────┼───────────────────────────────────┤
+  │ 受賞報告 (Award)       │ award    │ Award announcements. Example:     │
+  │                        │          │ "Received Infrastructure          │
+  │                        │          │ Maintenance Award."               │
+  └────────────────────────┴──────────┴───────────────────────────────────┘
 
-Usage examples:
-  • info     — Business hours, holiday closures, general notices
-  • download — When a new PDF/document is added to the downloads page
-  • award    — Award announcements (e.g. "Received the Infrastructure
-               Maintenance Award (Minister of Defense Prize)")
-
-Assign one of these categories to every post so it appears correctly
-color-coded in the news ticker and archive page.
-
-────────────────────────────────────────────────────────────────────────────────
-6. DOCUMENT CUSTOM POST TYPE (Downloads Page)
-────────────────────────────────────────────────────────────────────────────────
-
-Using CPT UI, register a new Custom Post Type:
-
-  Post Type Slug: document
-  Plural Label:   資料
-  Singular Label: 資料
-  Supports:       title, editor, excerpt, thumbnail
-  Has Archive:    No (front-end is handled by Next.js)
-  Public:         Yes (REST API must be enabled)
-  Show in REST:   Yes
-
-Using ACF, attach a Field Group to the "document" post type with:
-
-  Field 1:
-    Label:      短い説明 (Short Description)
-    Field Name: short_description
-    Type:       Textarea
-    Max length: 120 characters
-
-  Field 2:
-    Label:      ファイルURL (File URL)
-    Field Name: file_url
-    Type:       File  (returns URL)
-    OR:         URL field if hosting files externally (e.g. S3, Google Drive)
-    Note:       For PDF files, upload to Media Library and copy the URL
-
-  Field 3:
-    Label:      ファイルサイズ (File Size)
-    Field Name: file_size
-    Type:       Text
-    Placeholder: e.g. "3.2 MB"
-    Note:       Enter manually after uploading (e.g. "12.7 MB")
-
-  Field 4:
-    Label:      カテゴリ (Document Category)
-    Field Name: document_category
-    Type:       Select (single value)
-    Choices:
-      catalog             : カタログ
-      technical-spec      : 技術仕様書
-      construction-manual : 施工マニュアル
-      design-reference    : 設計参考図
-    Default:    catalog
-
-REST API endpoint for documents:
-  GET /wp-json/wp/v2/document?per_page=100&_fields=id,date,title,excerpt,acf,slug,link
-
-  Ensure ACF REST API is enabled:
-  In ACF → Settings, or install "ACF to REST API" plugin if using ACF Free.
+  How to create:
+    Posts → Categories → fill in Name and Slug → Add Category
+    Repeat for all three. Do NOT use the auto-generated slug — type it manually.
 
 ────────────────────────────────────────────────────────────────────────────────
-7. SSL & SECURITY HARDENING
+6. DOCUMENT CUSTOM POST TYPE + ACF FIELDS (Downloads Page)
+────────────────────────────────────────────────────────────────────────────────
+
+  STEP 1 — Register the Post Type (CPT UI)
+    CPT UI → Add/Edit Post Types
+      Post Type Slug:   document
+      Plural Label:     資料
+      Singular Label:   資料
+      Description:      ダウンロード資料
+    Under "Settings":
+      Public:           True
+      Has Archive:      False
+      Show in REST API: True   ← REQUIRED
+      Capability Type:  post   ← allows Editor role to manage it
+    Under "Supports":
+      ✓ Title
+      ✓ Editor (for optional long description)
+      ✓ Excerpt (used as fallback description)
+    Save Post Type.
+
+  STEP 2 — Create ACF Field Group
+    ACF → Field Groups → Add New
+    Title: 資料フィールド
+
+    Add Field 1:
+      Label:       短い説明
+      Field Name:  short_description
+      Field Type:  Textarea
+      Rows:        3
+      Max length:  150
+      Required:    Yes
+
+    Add Field 2:
+      Label:       ファイルURL
+      Field Name:  file_url
+      Field Type:  File
+      Return Value: File URL  ← important, select URL not array
+      Required:    Yes
+      Instructions: PDFをメディアライブラリにアップロードして選択してください
+
+    Add Field 3:
+      Label:       ファイルサイズ
+      Field Name:  file_size
+      Field Type:  Text
+      Placeholder: 例: 3.2 MB
+      Required:    No
+      Instructions: ファイルサイズを手動で入力してください（例: 8.4 MB）
+
+    Add Field 4:
+      Label:       カテゴリ
+      Field Name:  document_category
+      Field Type:  Select
+      Choices (one per line, format "value : Label"):
+        catalog : カタログ
+        technical-spec : 技術仕様書
+        construction-manual : 施工マニュアル
+        design-reference : 設計参考図
+      Default Value: catalog
+      Required:    Yes
+
+    Location Rules (bottom of page):
+      Show this field group if: Post Type → is equal to → document
+    Publish.
+
+  STEP 3 — Enable ACF in REST API
+    Install "ACF to REST API" plugin (free):
+      Plugins → Add New → search "ACF to REST API" → Install → Activate
+    No configuration needed. Fields will appear under "acf" key in API.
+
+  STEP 4 — Verify
+    Visit in browser: https://your-wp-domain.com/wp-json/wp/v2/document
+    You should see JSON with an "acf" object containing your fields.
+
+────────────────────────────────────────────────────────────────────────────────
+7. SSL & SECURITY HARDENING (FREE)
 ────────────────────────────────────────────────────────────────────────────────
 
   a) SSL
-     • Install Let's Encrypt SSL (free) via your hosting control panel or Certbot
-     • Force HTTPS: add to wp-config.php:
+     • Activate Let's Encrypt via your host's control panel (free, one click)
+       Hostinger: hPanel → SSL → Free SSL → Activate
+       SiteGround: Site Tools → Security → SSL Manager → Let's Encrypt
+     • Force HTTPS — add to wp-config.php (above "That's all, stop editing"):
          define('FORCE_SSL_ADMIN', true);
-       And redirect in .htaccess or Nginx config
 
-  b) Disable XML-RPC
-     • Wordfence / WP Cerber does this automatically
-     • Or add to .htaccess:
-         <Files xmlrpc.php>
-           Order Deny,Allow
-           Deny from all
-         </Files>
-     • Or add to functions.php:
-         add_filter('xmlrpc_enabled', '__return_false');
+  b) Disable XML-RPC (free, no plugin needed)
+     Add to your theme's functions.php:
+       add_filter('xmlrpc_enabled', '__return_false');
+     OR add to .htaccess:
+       <Files xmlrpc.php>
+         Order Deny,Allow
+         Deny from all
+       </Files>
 
   c) Limit Login Attempts
-     • Wordfence: Firewall → Brute Force Protection → Enable
-     • Set: lock out after 5 failed attempts for 30 minutes
+     Wordfence free handles this (configured in Step 3a above).
+     No additional plugin needed.
 
-  d) Change Login URL (optional but recommended)
-     • Use "WPS Hide Login" plugin to move /wp-login.php to a custom URL
-
-  e) wp-config.php hardening
-     Add these constants:
-       define('DISALLOW_FILE_EDIT', true);     // Disable theme/plugin editor
-       define('DISALLOW_FILE_MODS', true);     // Disable plugin/theme install from WP admin
-       define('WP_DEBUG', false);              // Never true in production
+  d) Harden wp-config.php
+     Add these lines (above "That's all, stop editing"):
+       define('DISALLOW_FILE_EDIT', true);   // Disables theme/plugin editor in WP admin
+       define('WP_DEBUG', false);
        define('WP_DEBUG_LOG', false);
        define('WP_DEBUG_DISPLAY', false);
+     Note: Skip DISALLOW_FILE_MODS if you want to update plugins from WP admin.
 
-  f) Database prefix
-     Change the default "wp_" table prefix during installation to something
-     unique (e.g. "rkyz_") to prevent SQL injection targeting default tables.
+  e) Change default admin username
+     Do NOT use "admin" as the WordPress username.
+     During install, choose something less obvious.
 
-  g) Disable REST API for unauthenticated users (optional)
-     The Next.js site needs the REST API open for posts and documents.
-     To restrict other endpoints, add to functions.php:
-       add_filter('rest_authentication_errors', function($result) {
-         if (!empty($result)) return $result;
-         // Allow posts and documents endpoints without auth
-         $route = $_SERVER['REQUEST_URI'] ?? '';
-         if (strpos($route, '/wp-json/wp/v2/posts') !== false) return $result;
-         if (strpos($route, '/wp-json/wp/v2/document') !== false) return $result;
-         if (strpos($route, '/wp-json/wp/v2/categories') !== false) return $result;
-         if (!is_user_logged_in()) {
-           return new WP_Error('rest_not_logged_in', 'Auth required', ['status' => 401]);
-         }
-         return $result;
-       });
+  f) (Optional) Hide login URL — free plugin
+     Plugin: "WPS Hide Login" (free)
+     Changes /wp-login.php to a custom URL, stops bots from targeting it.
 
 ────────────────────────────────────────────────────────────────────────────────
-8. CORS (Cross-Origin Resource Sharing)
+8. CORS — Allow Next.js to fetch WordPress data
 ────────────────────────────────────────────────────────────────────────────────
 
-The Next.js site fetches from the WordPress REST API. Add CORS headers to
-allow requests from your Next.js domain. In WordPress functions.php:
+  Add to your theme's functions.php:
 
-  add_action('rest_api_init', function() {
-    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
-    add_filter('rest_pre_serve_request', function($value) {
-      $allowed = ['https://your-nextjs-domain.com'];
-      $origin  = $_SERVER['HTTP_ORIGIN'] ?? '';
-      if (in_array($origin, $allowed, true)) {
-        header('Access-Control-Allow-Origin: ' . $origin);
-        header('Access-Control-Allow-Methods: GET, OPTIONS');
-        header('Access-Control-Allow-Headers: Content-Type, Authorization');
-      }
-      return $value;
+    add_action('rest_api_init', function() {
+      remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+      add_filter('rest_pre_serve_request', function($value) {
+        $allowed_origins = [
+          'https://your-nextjs-domain.vercel.app',  // Vercel preview URL
+          'https://your-custom-domain.com',          // Production domain
+          'http://localhost:3000',                   // Local development
+        ];
+        $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+        if (in_array($origin, $allowed_origins, true)) {
+          header('Access-Control-Allow-Origin: ' . $origin);
+          header('Access-Control-Allow-Methods: GET, OPTIONS');
+          header('Access-Control-Allow-Credentials: true');
+        }
+        return $value;
+      });
     });
-  });
 
-Replace "your-nextjs-domain.com" with your actual production domain.
-For local development, also add "http://localhost:3000".
+  Replace the URLs with your real Vercel URL and custom domain.
+  Find your Vercel URL at: vercel.com → your project → Domains tab.
 
 ────────────────────────────────────────────────────────────────────────────────
-9. WORKFLOW: HOW THE EDITOR UPDATES CONTENT
+9. EDITOR WORKFLOW (what the client does day-to-day)
 ────────────────────────────────────────────────────────────────────────────────
 
-  ADDING A NEWS POST:
-  1. Log in to WordPress as Editor
-  2. Posts → Add New
-  3. Enter title and optional body content
-  4. Assign one category: お知らせ / 資料追加 / 受賞報告
-  5. Publish → appears on site within ~5 minutes (cache revalidation)
+  PUBLISHING A NEWS POST:
+    1. Log in at: https://your-wp-domain.com/wp-admin
+    2. Posts → Add New
+    3. Enter a title (this is what shows on the news ticker)
+    4. Optional: add body text
+    5. Right sidebar → Categories → check one of:
+         ✓ お知らせ
+         ✓ 資料追加
+         ✓ 受賞報告
+    6. Click Publish
+    7. Appears on the Next.js site within ~5 minutes
 
-  ADDING A DOCUMENT:
-  1. Log in to WordPress as Editor
-  2. 資料 → Add New
-  3. Enter document title
-  4. Fill ACF fields:
-     - Short description (≤120 chars)
-     - File URL: upload PDF to Media Library, copy URL
-     - File size: enter manually (e.g. "8.4 MB")
-     - Document category: select from dropdown
-  5. Publish → appears on /downloads within ~10 minutes
+  UPLOADING A DOCUMENT:
+    1. Log in to wp-admin
+    2. 資料 → Add New
+    3. Enter document title
+    4. Fill in the ACF fields:
+         - 短い説明: write a 1–2 sentence description
+         - ファイルURL: click "Add File" → Upload Files → select PDF
+                        → click "Select"
+         - ファイルサイズ: type manually, e.g. "8.4 MB"
+           (To find file size: right-click the PDF on your computer
+            → Get Info / Properties)
+         - カテゴリ: select from dropdown
+    5. Click Publish
+    6. Appears on /downloads within ~10 minutes
 
-  CACHE TIMES (configurable in src/lib/wordpress.ts):
-  • News posts:   revalidate every 5 minutes  (300s)
-  • Documents:    revalidate every 10 minutes (600s)
-  • Categories:   revalidate every 1 hour    (3600s)
+  MANUAL BACKUP REMINDER (since free UpdraftPlus has no auto-schedule):
+    Set a weekly recurring reminder:
+    → WordPress Admin → Settings → UpdraftPlus Backups → Backup Now
+    → Make sure "Include your database" and "Include your files" are checked
 
 ────────────────────────────────────────────────────────────────────────────────
 10. REST API ENDPOINTS USED BY NEXT.JS
 ────────────────────────────────────────────────────────────────────────────────
 
-  News ticker & archive:
+  Test these in your browser after setup — they should return JSON:
+
+  News ticker & archive page:
     GET /wp-json/wp/v2/posts?per_page=5&_fields=id,date,title,excerpt,link,slug,categories
-    GET /wp-json/wp/v2/posts?per_page=10&page=N&categories=ID&_fields=...
+    GET /wp-json/wp/v2/posts?per_page=10&page=1&_fields=id,date,title,excerpt,link,slug,categories
     GET /wp-json/wp/v2/categories?per_page=100&_fields=id,slug
 
   Downloads page:
     GET /wp-json/wp/v2/document?per_page=100&_fields=id,date,title,excerpt,acf,slug,link
 
-  Verify your endpoints are live by visiting them directly in a browser.
+  If /wp-json/wp/v2/document returns 404:
+    → Check CPT UI: "Show in REST API" must be True
+    → Go to Settings → Permalinks → just click Save Changes (flushes rewrite rules)
+
+────────────────────────────────────────────────────────────────────────────────
+11. TOTAL COST SUMMARY
+────────────────────────────────────────────────────────────────────────────────
+
+  Next.js front-end (Vercel)    FREE
+  WordPress plugins              FREE (all free tier)
+  SSL certificate                FREE (Let's Encrypt)
+  WordPress hosting              $3–15/mo depending on provider
+
+  Cheapest viable setup:
+    Hostinger Single/Business plan  ~$3–4/mo (intro price)
+    Total first year: ~$36–50
+
+  Everything else in this guide costs $0.
 
 ================================================================================
   END OF WORDPRESS SETUP GUIDE

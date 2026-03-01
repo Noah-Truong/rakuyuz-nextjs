@@ -276,27 +276,31 @@ export default function AboutPage() {
                 </table>
               </div>
               
-              {/* Map Placeholder */}
+              {/* Map */}
               <div className="card p-0 overflow-hidden">
-                <div className="relative aspect-[4/3] bg-slate-100 flex items-center justify-center">
-                  <div className="text-center p-6">
-                    <svg className="w-12 h-12 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                <div className="relative aspect-[4/3]">
+                  <iframe
+                    src="https://maps.google.com/maps?q=京都市右京区西京極北大入町66&t=&z=16&ie=UTF8&iwloc=&output=embed"
+                    className="absolute inset-0 w-full h-full border-0"
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="ラクユーZ工法協会 所在地"
+                  />
+                </div>
+                <div className="px-4 py-3 bg-white border-t border-slate-100 flex items-center justify-between">
+                  <p className="text-xs text-slate-500">京都市右京区西京極北大入町66</p>
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("京都市右京区西京極北大入町66")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-accent-600 hover:text-accent-700 font-medium inline-flex items-center gap-1 transition-colors"
+                  >
+                    Google Mapで開く
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                     </svg>
-                    <p className="text-slate-500 text-sm">
-                      京都市右京区西京極北大入町66
-                    </p>
-                    <Button variant="outline" size="sm" className="mt-4" asChild>
-                      <a
-                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(companyInfo.address.full)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Google Mapで見る
-                      </a>
-                    </Button>
-                  </div>
+                  </a>
                 </div>
               </div>
             </div>

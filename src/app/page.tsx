@@ -18,7 +18,9 @@ export default function HomePage() {
       exit="exit"
     >
       {/* News Ticker */}
-      <NewsTicker />
+      <div className="pt-16">
+        <NewsTicker />
+      </div>
 
       {/* Hero Section */}
       <HeroSection />
