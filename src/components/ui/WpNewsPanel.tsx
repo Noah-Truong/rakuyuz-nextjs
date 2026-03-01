@@ -155,7 +155,7 @@ export function WpNewsPanel() {
                         </time>
                         {meta && (
                           <span
-                            className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${meta.color}`}
+                            className={`inline-flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${meta.badgeClass}`}
                           >
                             {icon}
                             {meta.label}
