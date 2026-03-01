@@ -6,6 +6,7 @@ import { ServicesSection } from "@/components/sections/ServicesSection";
 import { RakuyuzSection } from "@/components/sections/RakuyuzSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { CTASection } from "@/components/sections/CTASection";
+import { NewsTicker } from "@/components/ui/NewsTicker";
 import { pageVariants } from "@/lib/animations";
 
 export default function HomePage() {
@@ -16,6 +17,9 @@ export default function HomePage() {
       animate="enter"
       exit="exit"
     >
+      {/* News Ticker */}
+      <NewsTicker />
+
       {/* Hero Section */}
       <HeroSection />
 

@@ -107,6 +107,8 @@ export const navigationItems = [
   { href: "/process", label: "施工手順" },
   { href: "/works", label: "施工事例" },
   { href: "/machine", label: "主な使用機器" },
+  { href: "/downloads", label: "資料" },
+  { href: "/news", label: "ニュース" },
   { href: "/about", label: "協会について" },
 ];
 
