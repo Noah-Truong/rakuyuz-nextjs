@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   fetchAnnotatedPosts,
-  getCategoryMeta,
+  NEWS_CATEGORY_META,
   formatWpDate,
   WP_API_URL,
   type WpPost,
@@ -132,7 +132,7 @@ export function WpNewsPanel() {
                 ))
               : posts.map((post, i) => {
                   const meta = post.categorySlug
-                    ? getCategoryMeta(post.categorySlug)
+                    ? NEWS_CATEGORY_META[post.categorySlug]
                     : null;
                   const icon = post.categorySlug
                     ? CATEGORY_ICON[post.categorySlug]
