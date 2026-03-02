@@ -1,12 +1,22 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button, SectionHeader } from "@/components/ui/Button";
 import { fadeUpVariants, staggerContainerVariants, staggerItemVariants } from "@/lib/animations";
 
 export default function ConstructionPage() {
+  const [videoOpen, setVideoOpen] = useState(false);
+
+  useEffect(() => {
+    if (!videoOpen) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setVideoOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [videoOpen]);
+
   return (
     <div>
       {/* Hero Section */}
@@ -46,15 +56,17 @@ export default function ConstructionPage() {
       <section className="py-8 bg-slate-50 border-b border-slate-200">
         <div className="container-custom">
           <div className="flex flex-wrap justify-center gap-4">
-            <Button variant="outline" asChild>
-              <a href="#" className="inline-flex items-center gap-2">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                動画で詳しく
-              </a>
-            </Button>
+            <button
+              type="button"
+              onClick={() => setVideoOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium rounded-md border border-primary-300 bg-transparent text-primary-900 hover:bg-primary-50 hover:border-primary-400 transition-colors duration-200 cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              動画で詳しく
+            </button>
             <Button variant="primary" asChild>
               <a href="/rakuyuz.pdf" download className="inline-flex items-center gap-2">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -235,6 +247,52 @@ export default function ConstructionPage() {
           </div>
         </div>
       </section>
+
+      {/* YouTube Video Modal */}
+      <AnimatePresence>
+        {videoOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80"
+            onClick={() => setVideoOpen(false)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 16 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative w-full max-w-3xl bg-black rounded-xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setVideoOpen(false)}
+                className="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full bg-black/60 hover:bg-black/80 text-white transition-colors"
+                aria-label="閉じる"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* 16:9 iframe wrapper */}
+              <div className="relative aspect-video">
+                <iframe
+                  src="https://www.youtube.com/embed/MRdPPpOpxPU?autoplay=1&rel=0"
+                  title="RAKUYU-Z工法 動画"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              </div>
+            </motion.div>
+
+            <p className="absolute bottom-4 text-white/40 text-xs">Esc または背景をクリックで閉じる</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

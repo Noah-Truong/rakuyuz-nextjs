@@ -1,433 +1,429 @@
 ================================================================================
   WORDPRESS CONFIGURATION GUIDE — ラクユーZ工法協会 Next.js Site
-  (All-Free Stack)
+  (WordPress.com Business Plan)
 ================================================================================
 
 ────────────────────────────────────────────────────────────────────────────────
-HOSTING ARCHITECTURE — TWO SEPARATE SERVICES
+PLAN OVERVIEW — WordPress.com Business
+────────────────────────────────────────────────────────────────────────────────
+
+  WordPress.com Business plan includes:
+    ✓ Hosting (no separate server needed)
+    ✓ Custom domain (1 year free)
+    ✓ Custom plugins (required for ACF, CPT UI, etc.)
+    ✓ Custom themes
+    ✓ SFTP / SSH access
+    ✓ 200 GB storage
+    ✓ Automatic daily backups with 30-day restore points (via Jetpack)
+    ✓ SSL / HTTPS always on (no setup needed)
+    ✓ CDN included
+    ✓ Staging site
+    ✓ 24/7 live chat support
+    Cost: ~$25/mo (monthly) or ~$300/yr (annual — recommended)
+
+────────────────────────────────────────────────────────────────────────────────
+HOSTING ARCHITECTURE — TWO SERVICES, BOTH MANAGED
 ────────────────────────────────────────────────────────────────────────────────
 
   Next.js Front-End  →  Vercel (free)
   ─────────────────────────────────────
-  • Already deployed or will be deployed to vercel.com
-  • Free tier covers this project fully (no traffic limits concern)
+  • Deploy to vercel.com — free tier is sufficient for this project
   • Set NEXT_PUBLIC_WP_API_URL in Vercel dashboard:
     Project → Settings → Environment Variables → add key/value
 
-  WordPress CMS Back-End  →  Separate PHP host ($3–10/mo)
-  ─────────────────────────────────────────────────────────
-  • Vercel CANNOT host WordPress — WordPress requires PHP + MySQL
-  • You need a traditional web host for WordPress only
-  • Recommended budget options:
-      Hostinger Business:  ~$3/mo (intro), ~$8/mo renewal
-      SiteGround Startup:  ~$4/mo (intro), ~$15/mo renewal
-      DigitalOcean Droplet: $6/mo (requires basic server knowledge)
-  • Both Hostinger and SiteGround include:
-      - One-click WordPress install
-      - Free Let's Encrypt SSL
-      - Free domain for first year (SiteGround)
-      - cPanel or hPanel for easy management
+  WordPress CMS Back-End  →  WordPress.com Business (paid, hosting included)
+  ────────────────────────────────────────────────────────────────────────────
+  • Sign up at wordpress.com/pricing → select Business plan
+  • Choose a domain (e.g. cms.rakuyuz.jp or rakuyuz-cms.wordpress.com)
+    Note: the WordPress domain is the back-end CMS only — it does not need
+    to match your public-facing Next.js domain
+  • Hosting, SSL, backups, and CDN are all managed by WordPress.com
 
   The two services connect via the WordPress REST API:
-    WordPress (your-wp-domain.com) ←→ REST API ←→ Vercel Next.js site
+    WordPress.com (your-site.wordpress.com) ←→ REST API ←→ Vercel Next.js
 
 ────────────────────────────────────────────────────────────────────────────────
 1. ENVIRONMENT VARIABLE (Next.js)
 ────────────────────────────────────────────────────────────────────────────────
 
   For local development — in .env.local:
-    NEXT_PUBLIC_WP_API_URL=https://your-wordpress-domain.com
+    NEXT_PUBLIC_WP_API_URL=https://your-site.wordpress.com
 
   For production — in Vercel dashboard:
     Project → Settings → Environment Variables
     Key:   NEXT_PUBLIC_WP_API_URL
-    Value: https://your-wordpress-domain.com
-    Environment: Production, Preview, Development
+    Value: https://your-site.wordpress.com
+    Environment: Production, Preview, Development (check all three)
+
+  If you connect a custom domain to WordPress.com:
+    NEXT_PUBLIC_WP_API_URL=https://cms.your-custom-domain.com
 
   While this is set to "your-wordpress-site.com", the site shows mock/preview
-  data. Replace it with your real WordPress domain to go live.
+  data. Replace it with your real WordPress.com URL to go live.
 
 ────────────────────────────────────────────────────────────────────────────────
-2. WORDPRESS INSTALLATION
+2. INITIAL SETUP ON WORDPRESS.COM
 ────────────────────────────────────────────────────────────────────────────────
 
-  1. Sign up for Hostinger or SiteGround
-  2. Use their one-click WordPress installer (available in hPanel/cPanel)
-  3. Set up a domain or subdomain, e.g.:
-       cms.your-main-domain.com  (if you want WordPress hidden)
-       OR
-       your-main-domain.com/wp  (subfolder install)
-  4. Complete the WordPress 5-minute install wizard
+  1. Sign up at wordpress.com → Business plan → create your site
+  2. During onboarding, choose "Start with a blank site" (skip page builders)
+  3. Connect your domain if you have one, or use the free .wordpress.com subdomain
 
-  Permalink structure (REQUIRED — REST API depends on this):
-    WordPress Admin → Settings → Permalinks → select "Post name"
-    Save Changes.
+  Permalink structure (REQUIRED — REST API filtering depends on this):
+    WP Admin → Settings → Permalinks → select "Post name" (/sample-post/)
+    Click Save Changes.
 
-  Theme:
-    Use a minimal theme — avoid Elementor, Divi, or WPBakery.
-    Recommended free options:
-      • Astra (free) — fast, minimal, REST-API friendly
-      • GeneratePress (free tier) — extremely lightweight
-    No visual customization needed since the front-end is Next.js.
-    The WordPress theme only affects wp-admin appearance.
+  Theme (appearance only — Next.js is your actual front-end):
+    Recommended: Astra or Twenty Twenty-Four (both available on Business plan)
+    No visual customization needed — the WP theme only affects wp-admin.
+    Avoid Elementor or other page builders entirely.
+
+  What you CANNOT do on WordPress.com vs self-hosted:
+    ✗ Directly edit wp-config.php (WordPress.com manages this)
+    ✗ Directly edit .htaccess (WordPress.com manages server config)
+    ✗ SSH into the server for server-level changes
+    ✓ Edit theme files via SFTP (see Section 7)
+    ✓ Install any plugin via Plugins → Add New (Business plan only)
 
 ────────────────────────────────────────────────────────────────────────────────
-3. PLUGINS (FREE ONLY)
+3. PLUGINS TO INSTALL
 ────────────────────────────────────────────────────────────────────────────────
 
-Install only these plugins. Keep it minimal.
+  Install via: WP Admin → Plugins → Add New → search → Install → Activate
 
-  a) Security: Wordfence Security (free)
-     ─────────────────────────────────────
-     Plugin slug: wordfence
-     Install: Plugins → Add New → search "Wordfence" → Install → Activate
+  a) Security: Wordfence Security (free plugin)
+     ─────────────────────────────────────────────
+     Plugin: wordfence
      Configuration:
-       • Run initial setup wizard
-       • Firewall → Manage Firewall → set to "Learning Mode" for 1 week,
-         then switch to "Enabled and Protecting"
+       • Run setup wizard on first activation
+       • Firewall → Manage Firewall:
+           "Learning Mode" for first week → then "Enabled and Protecting"
        • Brute Force Protection:
-           Lock out after 5 failed login attempts
-           Lock out duration: 30 minutes
-           Count failures over: 5 minutes
-       • Scan → Schedule: Weekly (free tier limitation — real-time on premium)
-     Free tier limitation:
-       • Threat signature updates are delayed 30 days vs real-time on premium
-       • Acceptable for a low-traffic association site
+           Lock out after: 5 failed attempts
+           Lockout duration: 30 minutes
+       • Login Security → enable Two-Factor Authentication for Admin accounts
+     Note on XML-RPC:
+       WordPress.com uses XML-RPC internally for Jetpack. Do NOT fully block
+       it with .htaccess (you can't anyway). Instead:
+       Wordfence → All Options → Brute Force → check
+       "Block IPs that send invalid usernames in XML-RPC" only.
+       To disable XML-RPC for external access while keeping Jetpack working,
+       add to functions.php via SFTP (see Section 7):
+         add_filter('xmlrpc_methods', function($methods) {
+           // Remove all methods except those used internally by Jetpack
+           $keep = ['system.multicall', 'system.listMethods', 'system.getCapabilities'];
+           return array_intersect_key($methods, array_flip($keep));
+         });
 
-  b) Backup: UpdraftPlus (free)
-     ────────────────────────────
-     Plugin slug: updraftplus
-     Install: Plugins → Add New → search "UpdraftPlus" → Install → Activate
-     Configuration:
-       • Settings → UpdraftPlus Backups → Settings tab
-       • Remote storage: select Google Drive (free, requires Google account)
-         OR Dropbox, or leave as "Email" for small sites
-       • Free tier limitation: NO automatic scheduling
-         Workaround: Set a recurring calendar reminder (e.g. every Monday)
-         to go to Settings → UpdraftPlus → Backup Now
-       • What to back up: check Database + Files
-       • Keep: 3 scheduled backups
+  b) Backups: NOT NEEDED — handled automatically by WordPress.com
+     ─────────────────────────────────────────────────────────────
+     WordPress.com Business includes Jetpack automated backups:
+       • Daily automated backups, 30-day restore history
+       • Access via: WP Admin → Jetpack → Backup
+         OR: wordpress.com/backup/your-site.wordpress.com
+       • One-click restore to any restore point
+       • No configuration needed — it's always on
+     UpdraftPlus is NOT needed or recommended on WordPress.com.
 
-  c) SEO: Yoast SEO (free)
-     ────────────────────────
-     Plugin slug: wordpress-seo
-     Install: Plugins → Add New → search "Yoast SEO" → Install → Activate
+  c) SEO: Yoast SEO (free plugin)
+     ─────────────────────────────
+     Plugin: wordpress-seo
      Configuration:
        • Run the setup wizard
        • Organization name: ラクユーZ工法協会
-       • Enable XML sitemap: Yes (submit to Google Search Console)
-       • Social → add your organization's social URLs if applicable
-     Free tier covers:
-       ✓ Meta title + description for all posts/pages
-       ✓ XML sitemap
-       ✓ Open Graph / Twitter cards
-       ✗ Redirect manager (not needed — Next.js handles routing)
-       ✗ Internal linking suggestions (not needed for this use case)
+       • XML sitemap: Enable → submit URL to Google Search Console
+         Sitemap URL: https://your-site.wordpress.com/sitemap_index.xml
+       • Social → add organization social URLs if applicable
+     Note: WordPress.com Business has built-in basic SEO settings.
+     Yoast provides more granular control and is still recommended.
 
-  d) Contact Form: Contact Form 7 (free)
-     ─────────────────────────────────────
-     Plugin slug: contact-form-7
-     Install: Plugins → Add New → search "Contact Form 7" → Install → Activate
-     Note: The contact form on the Next.js site may be handled separately.
-     CF7 is useful if you want a WordPress-hosted fallback contact page.
-     Optional: also install "Flamingo" (free, by CF7 author) to save
-     form submissions to the WordPress database.
+  d) Contact Form: Contact Form 7 (free plugin)
+     ─────────────────────────────────────────────
+     Plugin: contact-form-7
+     Optional companion: Flamingo (saves submissions to DB)
+     Note: The Next.js /contact page handles the main contact form.
+     CF7 is useful as a WordPress-side fallback or for internal forms.
 
-  e) Custom Fields: Advanced Custom Fields — ACF (free)
+  e) Custom Fields: Advanced Custom Fields — ACF (free plugin)
+     ────────────────────────────────────────────────────────────
+     Plugin: advanced-custom-fields
+     The free tier covers all field types needed for this project:
+       ✓ Text, Textarea, URL, File, Select
+     See Section 5 for full field setup.
+
+  f) Custom Post Types: Custom Post Type UI (free plugin)
      ──────────────────────────────────────────────────────
-     Plugin slug: advanced-custom-fields
-     Install: Plugins → Add New → search "Advanced Custom Fields"
-              → Install → Activate
-     Free tier covers ALL field types needed for this project:
-       ✓ Text, Textarea, URL, Select, File — all free
-       ✗ Repeater field — NOT needed for our document structure
-       ✗ Flexible content — NOT needed
-     See Section 6 for field setup.
+     Plugin: custom-post-type-ui
+     See Section 5 for post type setup.
 
-  f) Custom Post Types: Custom Post Type UI (free)
-     ────────────────────────────────────────────────
-     Plugin slug: custom-post-type-ui
-     Install: Plugins → Add New → search "Custom Post Type UI"
-              → Install → Activate
-     See Section 6 for post type setup.
-
-  g) ACF REST API support
-     ────────────────────────────────────────────────
+  g) ACF REST API: ACF to REST API (free plugin)
+     ─────────────────────────────────────────────
+     Plugin: acf-to-rest-api
      ACF free does not expose custom fields in the REST API by default.
-     Fix — add this to your theme's functions.php:
-
-       add_filter('acf/rest/get_fields', '__return_true');
-
-     OR install the free plugin: "ACF to REST API"
-       Plugin slug: acf-to-rest-api
-       This exposes all ACF fields under the "acf" key in REST responses,
-       which is exactly what the Next.js code expects.
+     This plugin adds ACF data under the "acf" key in all REST responses.
+     No configuration needed after activation.
+     Verify: visit /wp-json/wp/v2/document in your browser and confirm
+     you see an "acf" object with your field values.
 
 ────────────────────────────────────────────────────────────────────────────────
 4. USER ROLES
 ────────────────────────────────────────────────────────────────────────────────
 
-  Two roles to configure:
-
   ADMIN (your development team)
   ──────────────────────────────
-  • Default WordPress Administrator role
-  • Full access to everything
+  • WordPress Administrator role
+  • Full access to plugins, themes, users, settings
 
-  EDITOR (client — association staff who post news and upload documents)
-  ───────────────────────────────────────────────────────────────────────
-  • Use the built-in WordPress "Editor" role — it already has the right
-    default capabilities for this project at no cost:
+  EDITOR (client — association staff)
+  ─────────────────────────────────────
+  • Use the built-in "Editor" role — correct permissions out of the box:
       ✓ Create, edit, publish, delete Posts (News)
       ✓ Create, edit, publish, delete Documents (custom post type)
-      ✓ Upload files to Media Library (for PDFs)
+      ✓ Upload PDFs to Media Library
       ✓ Manage Categories
-      ✗ Cannot access Settings, Plugins, Themes, Users → perfect
-  • When creating the custom "document" post type in CPT UI (Section 6),
-    make sure to set "Capability Type" to "post" so the Editor role
-    automatically has access without extra configuration.
+      ✗ Cannot access Plugins, Themes, Settings, Users → correct
+  • In CPT UI, set "Capability Type" to "post" for the document post type
+    so the Editor role can manage it automatically.
 
-  To create an Editor account:
-    WordPress Admin → Users → Add New
-    Role: Editor
-    Send the login credentials to the client.
+  Create Editor account:
+    WP Admin → Users → Add New → set Role to "Editor" → Send invitation
+    WordPress.com sends an email invitation — the client accepts it and sets
+    their own password (more secure than sharing credentials).
 
 ────────────────────────────────────────────────────────────────────────────────
-5. NEWS POST CATEGORIES
+5. NEWS CATEGORIES + DOCUMENT CUSTOM POST TYPE
 ────────────────────────────────────────────────────────────────────────────────
 
-  Go to Posts → Categories and create exactly these three.
-  The slugs MUST match exactly — Next.js filters by slug.
+  NEWS CATEGORIES
+  ───────────────
+  Go to Posts → Categories. Create exactly these three.
+  Type the slugs manually — do not use the auto-generated ones.
 
   ┌────────────────────────┬──────────┬───────────────────────────────────┐
   │ Name                   │ Slug     │ Use Case                          │
   ├────────────────────────┼──────────┼───────────────────────────────────┤
-  │ お知らせ (Notice)      │ info     │ Business hours, holiday closures. │
-  │                        │          │ Example: "We will be closed       │
-  │                        │          │ Dec 28 – Jan 5 for New Year."     │
+  │ お知らせ (Notice)      │ info     │ Business hours, holiday closures  │
   ├────────────────────────┼──────────┼───────────────────────────────────┤
-  │ 資料追加 (New Doc)     │ download │ When a new PDF is added to the    │
-  │                        │          │ downloads page. Example: "2026    │
-  │                        │          │ Construction Manual uploaded."    │
+  │ 資料追加 (New Doc)     │ download │ New PDF added to downloads page   │
   ├────────────────────────┼──────────┼───────────────────────────────────┤
-  │ 受賞報告 (Award)       │ award    │ Award announcements. Example:     │
-  │                        │          │ "Received Infrastructure          │
-  │                        │          │ Maintenance Award."               │
+  │ 受賞報告 (Award)       │ award    │ Award announcements               │
   └────────────────────────┴──────────┴───────────────────────────────────┘
 
-  How to create:
-    Posts → Categories → fill in Name and Slug → Add Category
-    Repeat for all three. Do NOT use the auto-generated slug — type it manually.
+  DOCUMENT CUSTOM POST TYPE (CPT UI)
+  ────────────────────────────────────
+  CPT UI → Add/Edit Post Types:
+    Post Type Slug:   document
+    Plural Label:     資料
+    Singular Label:   資料
+  Under Settings:
+    Public:           True
+    Has Archive:      False
+    Show in REST API: True   ← REQUIRED
+    Capability Type:  post   ← Editor role can manage it
+  Under Supports:
+    ✓ Title  ✓ Editor  ✓ Excerpt
+  Save Post Type.
+
+  ACF FIELD GROUP (ACF → Field Groups → Add New)
+  ────────────────────────────────────────────────
+  Title: 資料フィールド
+
+  Field 1 — 短い説明
+    Field Name:   short_description
+    Type:         Textarea
+    Max length:   150
+    Required:     Yes
+
+  Field 2 — ファイルURL
+    Field Name:   file_url
+    Type:         File
+    Return Value: File URL   ← must select URL, not array
+    Required:     Yes
+    Instructions: PDFをメディアライブラリにアップロードして選択してください
+
+  Field 3 — ファイルサイズ
+    Field Name:   file_size
+    Type:         Text
+    Placeholder:  例: 3.2 MB
+    Required:     No
+    Instructions: ファイルサイズを手動で入力（例: 8.4 MB）
+
+  Field 4 — カテゴリ
+    Field Name:   document_category
+    Type:         Select
+    Choices:
+      catalog : カタログ
+      technical-spec : 技術仕様書
+      construction-manual : 施工マニュアル
+      design-reference : 設計参考図
+    Default:      catalog
+    Required:     Yes
+
+  Location: Post Type → is equal to → document → Publish
 
 ────────────────────────────────────────────────────────────────────────────────
-6. DOCUMENT CUSTOM POST TYPE + ACF FIELDS (Downloads Page)
+6. SSL & SECURITY — WHAT WORDPRESS.COM HANDLES FOR YOU
 ────────────────────────────────────────────────────────────────────────────────
 
-  STEP 1 — Register the Post Type (CPT UI)
-    CPT UI → Add/Edit Post Types
-      Post Type Slug:   document
-      Plural Label:     資料
-      Singular Label:   資料
-      Description:      ダウンロード資料
-    Under "Settings":
-      Public:           True
-      Has Archive:      False
-      Show in REST API: True   ← REQUIRED
-      Capability Type:  post   ← allows Editor role to manage it
-    Under "Supports":
-      ✓ Title
-      ✓ Editor (for optional long description)
-      ✓ Excerpt (used as fallback description)
-    Save Post Type.
+  The following are automatic on WordPress.com Business — no action needed:
 
-  STEP 2 — Create ACF Field Group
-    ACF → Field Groups → Add New
-    Title: 資料フィールド
+  ✓ SSL / HTTPS
+    Always on. All traffic is forced to HTTPS by WordPress.com infrastructure.
+    No Let's Encrypt setup, no .htaccess redirects, no wp-config.php changes.
 
-    Add Field 1:
-      Label:       短い説明
-      Field Name:  short_description
-      Field Type:  Textarea
-      Rows:        3
-      Max length:  150
-      Required:    Yes
+  ✓ DDoS protection
+    Handled by Automattic's global infrastructure.
 
-    Add Field 2:
-      Label:       ファイルURL
-      Field Name:  file_url
-      Field Type:  File
-      Return Value: File URL  ← important, select URL not array
-      Required:    Yes
-      Instructions: PDFをメディアライブラリにアップロードして選択してください
+  ✓ Automatic core updates
+    WordPress core is kept up to date by WordPress.com.
 
-    Add Field 3:
-      Label:       ファイルサイズ
-      Field Name:  file_size
-      Field Type:  Text
-      Placeholder: 例: 3.2 MB
-      Required:    No
-      Instructions: ファイルサイズを手動で入力してください（例: 8.4 MB）
+  ✓ Daily backups (Jetpack)
+    30-day restore history, one-click restore.
+    Access: WP Admin → Jetpack → Backup
 
-    Add Field 4:
-      Label:       カテゴリ
-      Field Name:  document_category
-      Field Type:  Select
-      Choices (one per line, format "value : Label"):
-        catalog : カタログ
-        technical-spec : 技術仕様書
-        construction-manual : 施工マニュアル
-        design-reference : 設計参考図
-      Default Value: catalog
-      Required:    Yes
+  ✓ Server-level hardening
+    wp-config.php and .htaccess are managed by WordPress.com.
+    You cannot and do not need to edit them.
 
-    Location Rules (bottom of page):
-      Show this field group if: Post Type → is equal to → document
-    Publish.
+  What you still need to do manually:
 
-  STEP 3 — Enable ACF in REST API
-    Install "ACF to REST API" plugin (free):
-      Plugins → Add New → search "ACF to REST API" → Install → Activate
-    No configuration needed. Fields will appear under "acf" key in API.
-
-  STEP 4 — Verify
-    Visit in browser: https://your-wp-domain.com/wp-json/wp/v2/document
-    You should see JSON with an "acf" object containing your fields.
+  • Install Wordfence and configure brute-force/login protection (Section 3a)
+  • Use a strong, unique admin password (use a password manager)
+  • Enable Two-Factor Authentication:
+      WP Admin → Users → Your Profile → Two-Factor Authentication
+      OR via Wordfence → Login Security → 2FA
+  • Do NOT use "admin" as your username
 
 ────────────────────────────────────────────────────────────────────────────────
-7. SSL & SECURITY HARDENING (FREE)
+7. CORS — Allow Next.js to fetch WordPress data (via SFTP)
 ────────────────────────────────────────────────────────────────────────────────
 
-  a) SSL
-     • Activate Let's Encrypt via your host's control panel (free, one click)
-       Hostinger: hPanel → SSL → Free SSL → Activate
-       SiteGround: Site Tools → Security → SSL Manager → Let's Encrypt
-     • Force HTTPS — add to wp-config.php (above "That's all, stop editing"):
-         define('FORCE_SSL_ADMIN', true);
+  Since .htaccess cannot be edited on WordPress.com, CORS headers must be
+  added via the active theme's functions.php using SFTP.
 
-  b) Disable XML-RPC (free, no plugin needed)
-     Add to your theme's functions.php:
-       add_filter('xmlrpc_enabled', '__return_false');
-     OR add to .htaccess:
-       <Files xmlrpc.php>
-         Order Deny,Allow
-         Deny from all
-       </Files>
+  SFTP ACCESS (WordPress.com Business):
+    WP Admin → Hosting → SFTP/SSH → note your credentials:
+      Host, Port, Username, Password
+    Connect with Filezilla, Cyberduck, or any SFTP client.
+    Navigate to: /wp-content/themes/your-active-theme/
+    Open functions.php and add at the bottom:
 
-  c) Limit Login Attempts
-     Wordfence free handles this (configured in Step 3a above).
-     No additional plugin needed.
-
-  d) Harden wp-config.php
-     Add these lines (above "That's all, stop editing"):
-       define('DISALLOW_FILE_EDIT', true);   // Disables theme/plugin editor in WP admin
-       define('WP_DEBUG', false);
-       define('WP_DEBUG_LOG', false);
-       define('WP_DEBUG_DISPLAY', false);
-     Note: Skip DISALLOW_FILE_MODS if you want to update plugins from WP admin.
-
-  e) Change default admin username
-     Do NOT use "admin" as the WordPress username.
-     During install, choose something less obvious.
-
-  f) (Optional) Hide login URL — free plugin
-     Plugin: "WPS Hide Login" (free)
-     Changes /wp-login.php to a custom URL, stops bots from targeting it.
-
-────────────────────────────────────────────────────────────────────────────────
-8. CORS — Allow Next.js to fetch WordPress data
-────────────────────────────────────────────────────────────────────────────────
-
-  Add to your theme's functions.php:
-
-    add_action('rest_api_init', function() {
-      remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
-      add_filter('rest_pre_serve_request', function($value) {
-        $allowed_origins = [
-          'https://your-nextjs-domain.vercel.app',  // Vercel preview URL
-          'https://your-custom-domain.com',          // Production domain
-          'http://localhost:3000',                   // Local development
-        ];
-        $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
-        if (in_array($origin, $allowed_origins, true)) {
-          header('Access-Control-Allow-Origin: ' . $origin);
-          header('Access-Control-Allow-Methods: GET, OPTIONS');
-          header('Access-Control-Allow-Credentials: true');
-        }
-        return $value;
-      });
+  ─────────────────────────────────────────────────────────────
+  add_action('rest_api_init', function() {
+    remove_filter('rest_pre_serve_request', 'rest_send_cors_headers');
+    add_filter('rest_pre_serve_request', function($value) {
+      $allowed_origins = [
+        'https://your-project.vercel.app',   // Vercel preview URL
+        'https://your-custom-domain.com',     // Production domain
+        'http://localhost:3000',              // Local development
+      ];
+      $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+      if (in_array($origin, $allowed_origins, true)) {
+        header('Access-Control-Allow-Origin: ' . $origin);
+        header('Access-Control-Allow-Methods: GET, OPTIONS');
+        header('Access-Control-Allow-Credentials: true');
+      }
+      return $value;
     });
+  });
+  ─────────────────────────────────────────────────────────────
 
-  Replace the URLs with your real Vercel URL and custom domain.
-  Find your Vercel URL at: vercel.com → your project → Domains tab.
+  Replace the URLs with your actual Vercel URL and production domain.
+  Find your Vercel URL: vercel.com → your project → Settings → Domains.
+
+  Alternative (no SFTP needed):
+    Install the free "CORS" plugin (by WP CORS) and whitelist your domains
+    from the settings screen — no code required.
 
 ────────────────────────────────────────────────────────────────────────────────
-9. EDITOR WORKFLOW (what the client does day-to-day)
+8. STAGING SITE (WordPress.com Business — built in)
 ────────────────────────────────────────────────────────────────────────────────
+
+  WordPress.com Business includes a staging environment.
+  Use it to test plugin changes before pushing to production.
+
+  Create staging site:
+    WP Admin → Hosting → Staging Site → Create Staging Site
+
+  Workflow:
+    1. Make changes on staging (install/configure plugins)
+    2. Verify everything works
+    3. Push staging → production via the built-in merge tool
+
+────────────────────────────────────────────────────────────────────────────────
+9. EDITOR WORKFLOW (day-to-day for the client)
+────────────────────────────────────────────────────────────────────────────────
+
+  Login URL: https://wordpress.com/log-in → or your-site.wordpress.com/wp-admin
 
   PUBLISHING A NEWS POST:
-    1. Log in at: https://your-wp-domain.com/wp-admin
-    2. Posts → Add New
-    3. Enter a title (this is what shows on the news ticker)
-    4. Optional: add body text
-    5. Right sidebar → Categories → check one of:
-         ✓ お知らせ
-         ✓ 資料追加
-         ✓ 受賞報告
-    6. Click Publish
-    7. Appears on the Next.js site within ~5 minutes
-
-  UPLOADING A DOCUMENT:
-    1. Log in to wp-admin
-    2. 資料 → Add New
-    3. Enter document title
-    4. Fill in the ACF fields:
-         - 短い説明: write a 1–2 sentence description
-         - ファイルURL: click "Add File" → Upload Files → select PDF
-                        → click "Select"
-         - ファイルサイズ: type manually, e.g. "8.4 MB"
-           (To find file size: right-click the PDF on your computer
-            → Get Info / Properties)
-         - カテゴリ: select from dropdown
+    1. WP Admin → Posts → Add New
+    2. Enter a title (shown on news ticker and archive page)
+    3. Optional: add body text
+    4. Right sidebar → Categories → check one:
+         ☑ お知らせ  /  ☑ 資料追加  /  ☑ 受賞報告
     5. Click Publish
-    6. Appears on /downloads within ~10 minutes
+    6. Appears on the Next.js site within ~5 minutes
 
-  MANUAL BACKUP REMINDER (since free UpdraftPlus has no auto-schedule):
-    Set a weekly recurring reminder:
-    → WordPress Admin → Settings → UpdraftPlus Backups → Backup Now
-    → Make sure "Include your database" and "Include your files" are checked
+  UPLOADING A DOCUMENT (Downloads page):
+    1. WP Admin → 資料 → Add New
+    2. Enter document title
+    3. Fill ACF fields:
+         短い説明:    1–2 sentence description
+         ファイルURL: click "Add File" → Upload → select your PDF → "Select"
+         ファイルサイズ: type manually (e.g. "8.4 MB")
+                       Find size: right-click file → Get Info / Properties
+         カテゴリ:    select from dropdown
+    4. Click Publish
+    5. Appears on /downloads within ~10 minutes
+
+  RESTORING A BACKUP (if something goes wrong):
+    WP Admin → Jetpack → Backup → browse restore points → click Restore
 
 ────────────────────────────────────────────────────────────────────────────────
 10. REST API ENDPOINTS USED BY NEXT.JS
 ────────────────────────────────────────────────────────────────────────────────
 
-  Test these in your browser after setup — they should return JSON:
+  Verify these in your browser after setup — they must return JSON:
 
-  News ticker & archive page:
-    GET /wp-json/wp/v2/posts?per_page=5&_fields=id,date,title,excerpt,link,slug,categories
-    GET /wp-json/wp/v2/posts?per_page=10&page=1&_fields=id,date,title,excerpt,link,slug,categories
-    GET /wp-json/wp/v2/categories?per_page=100&_fields=id,slug
+  News ticker & archive:
+    https://your-site.wordpress.com/wp-json/wp/v2/posts?per_page=5&_fields=id,date,title,excerpt,link,slug,categories
+    https://your-site.wordpress.com/wp-json/wp/v2/categories?per_page=100&_fields=id,slug
 
   Downloads page:
-    GET /wp-json/wp/v2/document?per_page=100&_fields=id,date,title,excerpt,acf,slug,link
+    https://your-site.wordpress.com/wp-json/wp/v2/document?per_page=100&_fields=id,date,title,excerpt,acf,slug,link
 
   If /wp-json/wp/v2/document returns 404:
-    → Check CPT UI: "Show in REST API" must be True
-    → Go to Settings → Permalinks → just click Save Changes (flushes rewrite rules)
+    → CPT UI: confirm "Show in REST API" is True
+    → WP Admin → Settings → Permalinks → click Save Changes (flushes rules)
+
+  If "acf" key is missing from document responses:
+    → Confirm "ACF to REST API" plugin is active
+    → Visit /wp-json/wp/v2/document and look for the "acf" key
 
 ────────────────────────────────────────────────────────────────────────────────
 11. TOTAL COST SUMMARY
 ────────────────────────────────────────────────────────────────────────────────
 
-  Next.js front-end (Vercel)    FREE
-  WordPress plugins              FREE (all free tier)
-  SSL certificate                FREE (Let's Encrypt)
-  WordPress hosting              $3–15/mo depending on provider
+  WordPress.com Business (annual)   ~$300/yr  (~$25/mo)
+    Includes: hosting, SSL, backups, CDN, staging, custom domain (yr 1),
+              custom plugins, 200GB storage, 24/7 support
 
-  Cheapest viable setup:
-    Hostinger Single/Business plan  ~$3–4/mo (intro price)
-    Total first year: ~$36–50
+  Next.js on Vercel                 FREE
 
-  Everything else in this guide costs $0.
+  All plugins listed in this guide  FREE
+
+  Custom domain renewal (yr 2+)     ~$15–20/yr (if using a custom domain)
+
+  Total year 1:  ~$300
+  Total year 2+: ~$315–320/yr
+
+  What the Business plan replaces vs the self-hosted free stack:
+    ✓ No separate PHP hosting to manage
+    ✓ No manual backups
+    ✓ No SSL setup
+    ✓ No server maintenance
+    ✓ 24/7 WordPress.com support
 
 ================================================================================
   END OF WORDPRESS SETUP GUIDE
