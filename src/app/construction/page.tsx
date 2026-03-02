@@ -210,12 +210,13 @@ export default function ConstructionPage() {
               title="その他の施工イメージ"
             />
             <div className="max-w-4xl mx-auto">
-              <div className="relative aspect-[21/9] rounded-lg overflow-hidden shadow-card bg-white">
+              <div className="relative aspect-[4/3] sm:aspect-[16/9] md:aspect-[21/9] rounded-lg overflow-hidden shadow-card bg-white">
                 <Image
                   src="/photos/rakuyu-zi method/standard_img2.png"
                   alt="その他の施工イメージ"
                   fill
                   className="object-contain"
+                  sizes="(max-width: 768px) 100vw, 900px"
                 />
               </div>
             </div>

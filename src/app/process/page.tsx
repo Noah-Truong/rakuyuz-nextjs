@@ -146,14 +146,14 @@ export default function ProcessPage() {
                 variants={staggerItemVariants}
                 className="card scroll-mt-32"
               >
-                <div className="flex items-start gap-6">
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6">
                   {/* Step Number */}
-                  <div className="flex-shrink-0 w-14 h-14 flex items-center justify-center rounded-full bg-accent-600 text-white font-bold text-xl">
+                  <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full bg-accent-600 text-white font-bold text-xl">
                     {step.step}
                   </div>
 
                   {/* Content */}
-                  <div className="flex-1">
+                  <div className="flex-1 w-full">
                     <h3 className="text-lg font-semibold mb-4 text-primary-900">
                       {step.title}
                     </h3>
@@ -171,6 +171,7 @@ export default function ProcessPage() {
                               alt={`${step.title} ${step.images && step.images.length > 1 ? (imgIndex === 0 ? "（本管）" : "（取付管）") : ""}`}
                               fill
                               className="object-contain p-2"
+                              sizes="(max-width: 768px) 100vw, 50vw"
                             />
                             {step.images && step.images.length > 1 && (
                               <div className="absolute bottom-0 left-0 right-0 bg-primary-900 text-white text-center py-1 text-sm">

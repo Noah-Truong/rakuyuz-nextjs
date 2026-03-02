@@ -36,14 +36,15 @@ export function Header() {
         <div className="container-custom">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <Link href="/" className="flex items-center flex-shrink-0 -ml-32">
-              <div className="relative w-64 h-64 flex-shrink-0">
+            <Link href="/" className="flex items-center flex-shrink-0 -ml-8 sm:-ml-16 lg:-ml-32">
+              <div className="relative w-32 h-16 sm:w-48 sm:h-24 lg:w-64 lg:h-32 flex-shrink-0">
                 <Image
                   src="/photos/logo_01.png"
                   alt="ラクユーZ工法協会"
                   fill
                   className="object-contain"
                   priority
+                  sizes="(max-width: 640px) 128px, (max-width: 1024px) 192px, 256px"
                 />
               </div>
             </Link>
@@ -85,7 +86,7 @@ export function Header() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={cn(
-                "lg:hidden w-10 h-10 flex flex-col items-center justify-center gap-1.5 rounded transition-colors flex-shrink-0",
+                "lg:hidden w-11 h-11 flex flex-col items-center justify-center gap-1.5 rounded transition-colors flex-shrink-0",
                 showSolidHeader ? "hover:bg-slate-100" : "hover:bg-white/10"
               )}
               aria-label="メニュー"
@@ -157,13 +158,9 @@ export function Header() {
                   transition={{ delay: 0.05 * navigationItems.length }}
                   className="mt-4"
                 >
-                  <Button variant="primary" asChild>
-                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)} aria-label="お問い合わせ">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" strokeWidth={2} />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3" />
-                        <circle cx="12" cy="17" r="0.5" fill="currentColor" stroke="none" />
-                      </svg>
+                  <Button variant="primary" size="lg" asChild>
+                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
+                      お問い合わせ
                     </Link>
                   </Button>
                 </motion.div>

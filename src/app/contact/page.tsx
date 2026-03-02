@@ -180,7 +180,7 @@ export default function ContactPage() {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                       placeholder="山田 太郎"
                     />
                   </div>
@@ -196,7 +196,7 @@ export default function ContactPage() {
                       name="company"
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                       placeholder="株式会社〇〇"
                     />
                   </div>
@@ -214,7 +214,7 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                         placeholder="example@email.com"
                       />
                     </div>
@@ -228,7 +228,7 @@ export default function ContactPage() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                         placeholder="000-0000-0000"
                       />
                     </div>
@@ -245,7 +245,7 @@ export default function ContactPage() {
                       value={formData.subject}
                       onChange={handleChange}
                       required
-                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all"
                     >
                       <option value="">選択してください</option>
                       <option value="inquiry">工法についてのお問い合わせ</option>
@@ -268,7 +268,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       rows={5}
-                      className="w-full px-4 py-2.5 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all resize-y"
+                      className="w-full px-4 py-3 rounded-md border border-slate-300 text-sm focus:ring-2 focus:ring-accent-500 focus:border-transparent outline-none transition-all resize-y"
                       placeholder="お問い合わせ内容をご記入ください"
                     />
                   </div>
@@ -280,7 +280,7 @@ export default function ContactPage() {
                       variant="primary"
                       size="lg"
                       disabled={isSubmitting}
-                      className="min-w-[200px]"
+                      className="w-full sm:w-auto sm:min-w-[200px]"
                     >
                       {isSubmitting ? (
                         <>

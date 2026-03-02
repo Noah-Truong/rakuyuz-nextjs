@@ -246,7 +246,7 @@ export default function AboutPage() {
               align="left"
             />
             <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-              <div className="card">
+              <div className="card overflow-x-auto">
                 <table className="w-full text-sm">
                   <tbody className="divide-y divide-slate-200">
                     <tr>

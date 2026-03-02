@@ -61,13 +61,15 @@ const AutoGallery: React.FC = () => {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? 'bg-accent-600 scale-110' 
-                : 'bg-slate-300 hover:bg-slate-400'
-            }`}
+            className="p-2 flex items-center justify-center"
             aria-label={`スライド ${index + 1}`}
-          />
+          >
+            <span className={`block w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentIndex
+                ? 'bg-accent-600 scale-110'
+                : 'bg-slate-300 hover:bg-slate-400'
+            }`} />
+          </button>
         ))}
       </div>
     </div>

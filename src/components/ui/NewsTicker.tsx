@@ -39,7 +39,7 @@ export function NewsTicker() {
                 >
                   <div className="h-3 w-20 rounded bg-slate-200 shrink-0" />
                   <div className="h-5 w-16 rounded-full bg-slate-200 shrink-0" />
-                  <div className="h-3 w-64 rounded bg-slate-200" />
+                  <div className="h-3 w-full max-w-xs rounded bg-slate-200" />
                 </div>
               ))
             : posts.map((post, i) => {

@@ -225,6 +225,7 @@ export default function MachinePage() {
                   </div>
                 </div>
 
+                <p className="text-sm text-slate-500 mb-4">以下の表は横スクロールでご覧ください。</p>
                 <div className="overflow-x-auto rounded-xl border border-slate-200">
                   <table className="w-full text-sm">
                     <thead className="bg-slate-50">
@@ -288,8 +289,8 @@ export default function MachinePage() {
                     </div>
                   </div>
                 </div>
-                
 
+                <p className="text-sm text-slate-500 mb-4">以下の表は横スクロールでご覧ください。</p>
                 <div className="overflow-x-auto rounded-xl border border-slate-200">
                   <table className="w-full text-sm">
                     <thead className="bg-slate-50">
@@ -401,7 +402,7 @@ export default function MachinePage() {
               className="flex justify-center max-w-5xl mx-auto"
             >
              {/* 3D Model Viewer */}
-             <div className="grid md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
+             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 w-full max-w-4xl mx-auto">
               <div className="flex flex-col">
                 <h3 className="text-xl text-center font-semibold text-primary-900 mb-4">コンプレッサーLT</h3>
                 <div className="relative aspect-square rounded-lg overflow-hidden bg-slate-100 shadow-card">                 

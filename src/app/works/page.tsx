@@ -110,14 +110,14 @@ export default function WorksPage() {
       {/* Filter Section */}
       <section className="py-6 bg-slate-50 border-b border-slate-200 sticky top-16 z-20">
         <div className="container-custom">
-          <div className="flex flex-wrap gap-4 items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3 sm:gap-4 sm:items-center sm:justify-between">
             {/* Category Filter */}
             <div className="flex flex-wrap gap-2">
               {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                  className={`px-4 py-3 rounded-full text-sm font-medium transition-colors min-h-[44px] ${
                     activeCategory === cat.id
                       ? "bg-accent-600 text-white"
                       : "bg-white text-slate-600 hover:bg-slate-100"
@@ -132,7 +132,7 @@ export default function WorksPage() {
             <select
               value={activeRegion}
               onChange={(e) => setActiveRegion(e.target.value)}
-              className="px-4 py-2 rounded-lg border border-slate-200 text-sm bg-white"
+              className="w-full sm:w-auto px-4 py-3 rounded-lg border border-slate-200 text-sm bg-white min-h-[44px]"
             >
               {regions.map((region) => (
                 <option key={region.id} value={region.id}>
@@ -249,7 +249,7 @@ export default function WorksPage() {
                       </div>
                       <button
                         onClick={() => setSelectedProject(null)}
-                        className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-100"
+                        className="w-11 h-11 flex-shrink-0 ml-3 flex items-center justify-center rounded-full hover:bg-slate-100"
                       >
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -323,7 +323,7 @@ export default function WorksPage() {
             onClick={closeLightbox}
           >
             <button
-              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+              className="absolute top-4 right-4 w-11 h-11 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
               onClick={closeLightbox}
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

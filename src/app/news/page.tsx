@@ -127,7 +127,7 @@ export default function NewsPage() {
                   <button
                     key={cat.id}
                     onClick={() => handleCategory(cat.id)}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-2 ${
+                    className={`px-4 py-3 rounded-full text-sm font-medium transition-colors min-h-[44px] flex items-center gap-2 ${
                       category === cat.id
                         ? "bg-accent-600 text-white"
                         : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
@@ -245,7 +245,7 @@ export default function NewsPage() {
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
-                className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -261,14 +261,14 @@ export default function NewsPage() {
                 }, [])
                 .map((item, idx) =>
                   item === "…" ? (
-                    <span key={`ellipsis-${idx}`} className="w-9 h-9 flex items-center justify-center text-slate-400 text-sm">
+                    <span key={`ellipsis-${idx}`} className="w-11 h-11 flex items-center justify-center text-slate-400 text-sm">
                       …
                     </span>
                   ) : (
                     <button
                       key={item}
                       onClick={() => setPage(item as number)}
-                      className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
+                      className={`w-11 h-11 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                         page === item
                           ? "bg-accent-600 text-white"
                           : "border border-slate-200 hover:bg-slate-100 text-slate-600"
@@ -282,7 +282,7 @@ export default function NewsPage() {
               <button
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                 disabled={page === totalPages}
-                className="w-9 h-9 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                className="w-11 h-11 flex items-center justify-center rounded-lg border border-slate-200 hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

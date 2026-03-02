@@ -45,7 +45,7 @@ export function HeroSection() {
       </div>
 
       {/* Content */}
-      <motion.div style={{ opacity }} className="container-custom relative z-10 py-24 md:py-32">
+      <motion.div style={{ opacity }} className="container-custom relative z-10 py-16 sm:py-20 md:py-32">
         <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
           {/* Award badge - subtle */}
           <motion.div
@@ -65,7 +65,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-display-lg md:text-display-xl font-bold text-white mb-5 leading-tight text-shadow-lg"
+            className="text-display-md sm:text-display-lg md:text-display-xl font-bold text-white mb-5 leading-tight text-shadow-lg"
           >
             RAKUYU-Z工法で、
             <br />
@@ -77,7 +77,7 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-white mb-8 max-w-md leading-relaxed text-shadow font-medium"
+            className="text-base sm:text-lg text-white mb-8 max-w-md leading-relaxed text-shadow font-medium"
           >
             RAKUYU-Z工法は、供用中の下水道関連工事において、
             <br />

@@ -97,7 +97,7 @@ function DocCard({ doc }: { doc: WpDocument }) {
           href={fileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-accent-600 hover:bg-accent-700 text-white text-xs font-medium rounded-lg transition-colors"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-accent-600 hover:bg-accent-700 text-white text-sm font-medium rounded-lg transition-colors min-h-[44px]"
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -180,7 +180,7 @@ export default function DownloadsPage() {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveCategory("all")}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              className={`px-4 py-3 rounded-full text-sm font-medium transition-colors min-h-[44px] ${
                 activeCategory === "all"
                   ? "bg-accent-600 text-white"
                   : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
@@ -194,7 +194,7 @@ export default function DownloadsPage() {
                 <button
                   key={cat}
                   onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center gap-1.5 ${
+                  className={`px-4 py-3 rounded-full text-sm font-medium transition-colors min-h-[44px] flex items-center gap-1.5 ${
                     activeCategory === cat
                       ? "bg-accent-600 text-white"
                       : "bg-white text-slate-600 hover:bg-slate-100 border border-slate-200"
